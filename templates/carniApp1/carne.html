@@ -1,0 +1,55 @@
+{% extends 'carniApp1/navbar.html' %}
+{% block content %}
+
+<body>
+    {% load static %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <section>
+                    <div class="alert alert-Danger"> Catalogo de productos</div>
+                    <form method="get">
+                        <input type="submit" name="ordenar" value="Ordenar de Mayor a Menor Precio">
+                    </form>
+                    <form method="get,">
+                        <input type="submit" name="ordenar2" value="Ordenar de Menor Precio a Mayor">
+                    </form>
+                    <div class="row">
+                        {% with contador=forloop.counter %}
+                        {% for codigo,detalle in producto.items %}
+                        <div class="col col-lg-4 mt-4">
+                            <form action="{% url 'vista_producto' %}" method="get">
+                                <div class="card">
+                                    <div class="card-header bg-danger h-2 ">{{detalle.0}}</div>
+                                    <div class="card-body">
+                                        <img class="img-fluid w-100" src="{% static 'images/' %}{{detalle.4}}"
+                                            alt="imagenes del producto {{detalle.0}}">
+                                        <ul class="mt-5 text-start fs-4">
+                                            <li>Marca: {{detalle.1}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class=" card-footer bg-danger h-1 ">
+                                        ${{detalle.3}} x kilo <br> <br>
+
+                                        <input type="hidden" name="contador" value=0>
+                                        <input type="hidden" name="codigo" value="{{ codigo }}">
+                                        <input type="hidden" name="nombre" value="{{detalle.0}}">
+                                        <input type="hidden" name="marca" value="{{detalle.1}}">
+                                        <input type="hidden" name="tipo" value="{{detalle.2}}">
+                                        <input type="hidden" name="precio" value="{{detalle.3}}">
+                                        <input type="hidden" name="imagen" value="{{detalle.4}}">
+                                        <input type="hidden" name="cantidad" value="1">
+                                        <input type="submit" value="detalle">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

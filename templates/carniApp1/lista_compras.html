@@ -1,0 +1,96 @@
+{% extends 'carniApp1/bottomHtml.html' %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+  <title>Carrito de compra</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand text-light" style="margin: 0 auto" href="{% url 'index' %}">
+          <img src="{% static 'images/logo-carniceria.jpg' %}" alt="Logo" width="30" height="30"
+            class="d-inline-block align-middle text-center" />
+          Donde xhe karlos
+        </a>
+      </div>
+    </nav>
+  </header>
+  <div class="row mt-5">
+    {% for msg in messages %}
+    <div class="mx-auto alert alert-danger alert-dismissible fade show col-4 h-50" role="alert">
+      <p>{{ msg }}</p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="container lista-compras-container">
+    <h2 class="mt-5 mb-5">Mi lista de compras</h2>
+    <form action="{% url 'crearOrden' %}" method="post">
+      {% csrf_token %} {% for producto in carrito %}
+      <div class="lista-productos d-flex mb-4">
+        <img src="{{ producto.imagenProduc.url }}" class="img-producto mt-3" alt="imagen del producto" />
+        <div class="datos-producto pt-3 ms-4">
+          <p class="text-break">{{ producto.nombre }}</p>
+          <p>Kilos: {{ producto.cantidad }}</p>
+          <p id="Precio">Precio: {{ producto.precio }}</p>
+        </div>
+        <div class="ajustes-carro">
+          <button class="btn_suma" type="button" id="{{ forloop.counter }}" data-producto="{{venta.id}}">
+            +
+          </button>
+          <span class="span_cantidad" id="cantidad">{{producto.cantidad}}</span>
+          <button class="btn_resta" type="button" id="{{ forloop.counter }}" data-producto="{{venta.id}}">
+            -
+          </button>
+        </div>
+        <input type="hidden" name="nombreProductos" value="{{ producto.nombre }}" />
+        <input type="hidden" name="cantidadProductos" id="inputCantidad" value="{{ producto.cantidad }}" />
+        <input type="hidden" name="precioPorProductos" id="inputPrecio" value="{{ producto.precio }}" />
+      </div>
+      {% endfor %}
+      <div class="metodo-compra d-block mt-5">
+        <h5>Seleccione su método de compra</h5>
+        <div class="compra pt-3 mb-3">
+          <label class="">Compra</label>
+          <input type="checkbox" name="check-compra" id="chkbx-compra" onclick=" checkBtn()" />
+        </div>
+        <div class="pre-compra">
+          <label class="">Pre-compra</label>
+          <input type="checkbox" name="check-precompra" id="chkbx-pre-compra" onclick="checkBtn()" />
+        </div>
+      </div>
+      <div class="metodo-pago-container mt-5 mb-5">
+        <h5>Seleccione Paypal como su método de pago</h5>
+        <div class="metodos-pago d-inline-block mt-4">
+          <button id="btn-paypal">
+            <img src="{% static 'images/paypal.png' %}" alt="logo de paypal" />
+          </button>
+        </div>
+      </div>
+      <div class="detalles-compra float-end">
+        <h3 id="total">Total: ${{ precio_final }}</h3>
+        <button class="btn-pago" id="btn-pagar-ya" type="submit">
+          Pagar ya
+        </button>
+        <button class="btn-pago" id="btn-pre-compra" type="submit">
+          Realizar pre-compra
+        </button>
+      </div>
+      <input type="hidden" name="precio_final" id="precioTotal" value="{{ precio_final }}" />
+      <input type="hidden" name="check-compra" />
+      <input type="hidden" name="check-pre-compra" />
+    </form>
+  </div>
+  <script src="{% static 'js/lista_compras.js'%}"></script>
+  {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+{% extends 'crudsTemplates/base.html' %}
+{% load static %}
+
+{% block title %}Editar cajero{% endblock title %}
+
+{% block contents %}
+<div style="display: flex; justify-content: center; margin-top: 50px; margin-bottom: 100px;">
+    <form method="post" class="categoria-form" autocomplete="off" enctype="multipart/form-data" style="width: 500px;">
+        <h4 class="mb-5">Modifique al cajero</h4>
+        {% csrf_token %}
+        {{ form.rut }}
+        {{ form.rut.errors }}
+        {{ form.nombre }}
+        {{ form.nombre.errors }}
+        {{ form.paterno }}
+        {{ form.paterno.errors }}
+        {{ form.materno }}
+        {{ form.materno.errors }}
+        {{ form.numeroContacto }}
+        {{ form.numeroContacto.errors }}
+        {{ form.email }}
+        {{ form.email.errors }}
+        {{ form.contraseña }}
+        {{ form.contraseña.errors }}
+        {{ form.reclave }}
+        {{ form.reclave.errors }}
+        {{ form.fechaNaci }}
+        {{ form.fechaNaci.errors }}
+        <input type="submit" id="ingresar-categoria-btn" value="Modificar cajero">
+    </form>
+</div>
+
+{% endblock contents %}

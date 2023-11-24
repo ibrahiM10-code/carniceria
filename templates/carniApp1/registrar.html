@@ -1,0 +1,102 @@
+{% extends 'carniApp1/navbar.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="mb-4 centralizar">Registro de usuario</h1>
+            <div class="col col-lg-8 mt-2 mx-auto d-block">
+                <form method="post" class="formulario">
+                    {% csrf_token %}
+                    <div class="row">
+                        {{ form.non_field_errors }}
+                        <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                            {{form.rut.label_tag}}
+                            {{form.rut}}
+                            <div class="letra ">
+                                {{form.rut.errors}}
+                            </div>
+                        </div>
+                        <div class="form-floating centralizar w-50 mt-2 mb-2">
+                            {{form.nombre.label_tag}}
+                            {{form.nombre}}
+                            <div class="letra ">
+                                {{form.nombre.errors}}
+                            </div>
+
+                        </div>
+
+                        <div class="form-floating  centralizar w-50 mt-2 mb-2">
+                            <label for="id_paterno">Apellido Paterno:</label>
+                            {{form.paterno}}
+                            <div class="letra ">
+                                {{form.paterno.errors}}
+                            </div>
+
+                        </div>
+
+                        <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                            <label for="id_materno">Apellido Materno:</label>
+                            {{form.materno}}
+                            <div class="letra ">
+                                {{form.materno.errors}}
+                            </div>
+
+                        </div>
+                        <div class="form-floating centralizar w-50 mt-2 mb-2">
+
+                            <label for="id_numeroContacto">Numero De Contacto:</label>
+                            {{form.numeroContacto}}
+                            <div class="letra ">
+                                {{form.numeroContacto.errors}}
+                            </div>
+                        </div>
+                        <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                            {{form.email.label_tag}}
+                            {{form.email}}
+                            <div class="letra ">
+                                {{form.email.errors}}
+                            </div>
+                        </div>
+                        <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                            {{form.nombre_usuario.label_tag}}
+                            {{form.nombre_usuario}}
+                            <div class="letra ">
+                                {{form.nombre_usuario.errors}}
+                            </div>
+                        </div>
+                        <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                            {{form.contraseña.label_tag}}
+                            {{form.contraseña}}
+                            <div class="letra ">
+                                {{form.contraseña.errors}}
+                            </div>
+                        </div>
+                        <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                            <label for="id_reclave">Confirmar contraseña: </label>
+                            {{form.reclave}}
+                            <div class="letra ">
+                                {{form.reclave.errors}}
+                            </div>
+                        </div>
+                        <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                            <div class="mb-2 letra">
+                                <label for="id_fechaNaci">Fecha De Nacimiento: </label>
+                            </div>
+                            {{form.fechaNaci}}
+                            <div class="letra ">
+                                {{form.fechaNaci.errors}}
+                            </div>
+                        </div>
+                        <div class="form-floating centralizar w-50 mt-2 mb-2">
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                        </div>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

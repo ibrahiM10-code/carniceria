@@ -1,0 +1,66 @@
+{% extends 'carniApp1/navbar.html' %} {% block content %}
+
+<main>
+  <div class="container vista-producto-container">
+    <div class="vista-producto-img d-inline">
+      {% load static %}
+      <img
+        class="img-fluid"
+        width="300px"
+        src="{% static 'images/' %}{{imagen}}"
+        alt=""
+      />
+    </div>
+    <div class="vista-producto-detalles float-end">
+      <h2>{{ nombre }}</h2>
+      <h3 class="mb-3" id="precio">${{ precio }}</h3>
+      <!-- <p>De la marca "{{ detalles_producto.1 }}" es este "{{ detalles_producto.2 }}"</p> -->
+      <p>Descripción del producto</p>
+      <div class="ajustes-cant-producto mt-4">
+        <form action="{% url 'vista_producto' %}">
+          <button type="button" class="btn-plus border-0 p-1 bg-btn-agregar">
+            +
+          </button>
+          <span class="cantidad-kilos ms-2 me-2">1</span>
+          <button type="button" class="btn-menos border-0 p-1 bg-btn-agregar">
+            -
+          </button>
+          <span class="ms-3">Kilos</span>
+          <input type="hidden" name="nombre" value="{{nombre}}" />
+          <input type="hidden" name="marca" value="{{marca}}" />
+          <input type="hidden" name="tipo" value="{{tipo}}" />
+          <input
+            type="hidden"
+            name="precio"
+            id="inputPrecio"
+            value="{{precio}}"
+          />
+          <input type="hidden" name="imagen" value="{{imagen}}" />
+          <input type="hidden" name="cantidad" id="inputCantidad" value="1" />
+          <input type="hidden" name="contador" value="vacio" />
+          <button type="submit" class="btn-agregar-carro d-block mt-5">
+            Agregar al carro
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% for msg in messages %}
+  <div
+    class="mx-auto alert alert-success alert-dismissible fade show col-4 h-50"
+    role="alert"
+  >
+    <p>{{ msg }}</p>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  {% endfor %}
+</main>
+
+<script src="{% static 'js/vista_producto.js'%}"></script>
+
+{% endblock %}

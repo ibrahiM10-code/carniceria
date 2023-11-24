@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/footers.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/detalle_compra.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/login.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/preCompra.css'%}" />
+    <title>Página de Inicio</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand text-light" href="{% url 'index' %}">
+                    <img src="{% static 'images/logo-carniceria.jpg' %}" alt="Logo" width="30" height="30"
+                        class="d-inline-block align-text-top" />
+                    Donde xhe karlos</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <form action="" method="get" class="d-flex" role="search">
+                        <input class="form-control me-2" id="busqueda" type="search" placeholder="Buscar"
+                            aria-label="Search" name="valor" />
+                        <button class="btn btn-dark" type="submit">Buscar</button>
+                    </form>
+                    <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
+                        {% if user.is_staff == True %}
+                        <li class="nav-item">
+                            <a href="{% url 'menuCruds' %}" class="nav-link text-light">Gestiones administrativas</a>
+                        </li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'carrito' %}" class="nav-link">
+                                <img src="{% static 'images/cart4.svg' %}" alt="carrito de compras" width="25"
+                                    height="25" />
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light hoverme" href="{% url 'precompra' %}">Mis pre-compras</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="{% url 'detallesC' %}">Mis compras</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'registro' %}" class="nav-link text-light">Crear una cuenta</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'login' %}" class="nav-link text-light">Iniciar sesion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="#footer">Contactos</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    {% if user.is_authenticated %}
+                    <span class="navbar-brand me-4 text-light"> Hola, {{ user.username }}! </span>
+                    <a href="{% url 'logout' %}" class="btn" id="cerrar-sesion-btn">
+                        Cerrar sesión
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <div class="d-flex justify-content-around categorias">
+            <div class="categoria-vacuno categoria">Vacuno</div>
+            <div class="categoria-aves categoria">Aves</div>
+            <div class="categoria-cerdo categoria">
+                <a href="{% url 'cerdo' %}">Cerdo</a>
+            </div>
+            <div class="categoria-embutidos categoria">
+                <a href="{% url 'embutidos' %}">Embutidos</a>
+            </div>
+        </div>
+        <div class="sub-categorias-vacunos">
+            <div class="sub-categoria-vacuno">
+                <a href="{% url 'carnes' %}">Carne</a>
+            </div>
+            <div class="sub-categoria-vacuno">
+                <a href="{% url 'cazuela' %}">Cazuela</a>
+            </div>
+            <div class="sub-categoria-vacuno">
+                <a href="{% url 'interiores' %}">Interiores</a>
+            </div>
+        </div>
+        <div class="sub-categorias-aves">
+            <div class="sub-categoria-ave">
+                <a href="{% url 'aves' %}">Pollos</a>
+            </div>
+            <div class="sub-categoria-ave">
+                <a href="{% url 'pavo' %}">Pavo</a>
+            </div>
+        </div>
+    </header>
+    {% block content %} {% endblock %} {% block footer %}
+    <footer>
+        <footer id="footer">
+            <div class="footer">
+                <ul class="seguir">
+                    <li><strong class="fs-2">Siguenos</strong></li>
+                    <li class="dos mt-4">
+                        <a
+                            href="https://www.facebook.com/people/Donde-Xhekarlos/pfbid03216x4oV9gMHgsDNMwLZ3BUiDxGGyYggmvGVon8KLXFpZrb1MDpvrTtjxwc5xzev1l/?mibextid=ZbWKwL">
+                            <img width="50px" src="{% static 'images/facebook.png' %}" alt="" />
+                        </a>
+                        <p class="mx-2 fs-4">Facebook</p>
+                    </li>
+                </ul>
+
+                <ul class="direccion">
+                    <li class="text-center"><strong class="fs-2">Direccion</strong></li>
+                    <li class="text-center fs-4 mt-4">
+                        Avenida Portugal 281 las torres
+                    </li>
+                </ul>
+
+                <ul class="contacto">
+                    <li class="text-center fs-2"><strong>Contactanos</strong></li>
+                    <li class="dos mt-4">
+                        <img width="50px" src="{% static 'images/whattsapp.png'%}" alt="" />
+                        <p class="mx-2 fs-4">+56958588204</p>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </footer>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/detalle_compra.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
+    <script src="{% static 'js/Precompra.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>
+{% endblock %}

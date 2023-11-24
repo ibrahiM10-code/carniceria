@@ -1,0 +1,51 @@
+{% extends 'carniApp1/bottomHtml.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <title>Recuperar clave</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand text-light" style="margin: 0 auto;" href="{% url 'index' %}">
+                    <img src="{% static 'images/logo-carniceria.jpg' %}" alt="Logo" width="30" height="30"
+                        class="d-inline-block align-middle text-center">
+                    Donde xhe karlos
+                </a>
+            </div>
+        </nav>
+    </header>
+    <div class="row mt-5">
+        {% for msg in messages %}
+        <div class="mx-auto alert alert-danger alert-dismissible fade show col-4 h-50" role="alert">
+            <p>{{ msg }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="recuperar-clave-container">
+        <h3 class="text-center">Recupere su clave</h3>
+        <form action="{% url 'codigoRecuperacion' %}" method="post" class="formulario-recuperar-clave">
+            {% csrf_token %}
+            <label for="">Correo electrónico</label>
+            <input type="email" name="correo-cliente" id="">
+            <label for="">Ingrese su nueva clave</label>
+            <input type="password" name="clave-nueva" id="clave-nueva">
+            <label for="">Ingrese nuevamente su nueva clave</label>
+            <input type="password" name="clave-nueva-repetida" id="clave-nueva-repetida">
+            <input type="submit" value="Recuperar clave" id="recuperar-clave-btn">
+        </form>
+    </div>
+
+
+    {% endblock %}

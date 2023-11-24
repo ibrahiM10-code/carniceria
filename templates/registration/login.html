@@ -1,0 +1,64 @@
+{% extends 'carniApp1/navbar.html' %} {% block content %}
+
+<body>
+  {%load static%}
+  <main id="main">
+    <div class="alertas">
+      <div class="alerta alert alert-danger aparecer animacion" id="alerta_correo">
+        El correo esta vacio...
+      </div>
+
+      <div class="alerta alert alert-warning aparecer animacion" id="alerta_invalida">
+        Parece que esta cuenta no existe, intente registrarse...
+      </div>
+
+      <div class="alerta alert alert-danger aparecer animacion" id="alerta_contraseña">
+        La contraseña esta vacia...
+      </div>
+    </div>
+
+    <div class="titulo">
+      <h1>Bienvenido/a</h1>
+    </div>
+
+    {% comment %}
+    <div class="sesion">
+      <h3 class="mb-4">Inicio sesión</h3>
+      <label>Correo electronico</label>
+      <input type="text" value="" id="correo" />
+
+      <label>Contraseña</label>
+      <input class="mb-4" type="text" value="" id="contraseña" />
+
+      <button onclick="validar()"><a href="#">Iniciar</a></button>
+
+      <p>¿No tienes una cuenta?, haga click <a href="">aqui</a></p>
+    </div>
+    {% endcomment %}
+    {% if messages %}
+      <div class="alert alert-success" role="alert">
+        <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Username</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" name="password" />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a href="{% url 'recuperarClave' %}">Forgot your password? Click here</a>
+    </form>
+  </main>
+
+  {% endblock %}
+</body>

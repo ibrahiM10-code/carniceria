@@ -1,0 +1,91 @@
+{% extends 'carniApp1/navbar.html' %} {% block content %}
+
+<!-- Una vez que la carne no tenga stock aplicar los siguientes estilos
+
+A la imagen: filter: grayscale()
+Al precio: text-decoration: line-through
+Agregarle al nombre del producto (Sin stock)
+Que esto se aplique bajo un if stock == 0
+
+-->
+
+<body>
+  {% load static %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <section>
+          <div class="alert alert-Danger">Catalogo de productos</div>
+          <form method="get">
+            <input
+              type="submit"
+              name="ordenar"
+              value="Ordenar de Mayor a Menor Precio"
+            />
+          </form>
+          <form method="get">
+            <input
+              type="submit"
+              name="ordenar2"
+              value="Ordenar de Menor Precio a Mayor"
+            />
+          </form>
+          <div class="row">
+            {% for producto in producto %}
+            <div class="col col-lg-4 mt-4">
+              <form action="{% url 'vista_producto' %}">
+                <div class="card">
+                  <div class="card-header bg-danger h-2">
+                    {{producto.nombre}}
+                  </div>
+                  <div class="card-body">
+                    <img
+                      class="img-fluid w-100"
+                      src="{{ producto.imagenProduc.url }}"
+                      alt="imagenes del producto {{producto.nombre}}"
+                    />
+                    <ul class="mt-5 text-start fs-4">
+                      <li>Marca: {{producto.marcaProduc}}</li>
+                    </ul>
+                  </div>
+                  <div class="card-footer bg-danger h-1">
+                    ${{producto.precio}} x kilo <br />
+                    <br />
+
+                    <input type="hidden" name="contador" value="0" />
+                    <input type="hidden" name="codigo" value="{{ codigo }}" />
+                    <input
+                      type="hidden"
+                      name="nombre"
+                      value="{{producto.nombre}}"
+                    />
+                    <input
+                      type="hidden"
+                      name="marca"
+                      value="{{producto.marcaProduc}}"
+                    />
+                    <input
+                      type="hidden"
+                      name="tipo"
+                      value="{{ producto.tipo_id }}"
+                    />
+                    <input
+                      type="hidden"
+                      name="precio"
+                      value="{{producto.precio}}"
+                    />
+                    <input type="hidden" name="imagen" value="{{detalle.4}}" />
+                    <input type="hidden" name="cantidad" value="2" />
+                    <input type="submit" value="detalle" />
+                  </div>
+                </div>
+              </form>
+            </div>
+            {% endfor %}
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+</body>

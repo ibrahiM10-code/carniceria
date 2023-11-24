@@ -1,0 +1,147 @@
+{% extends 'carniApp1/bottomHtml.html' %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <title>Confirmar codigo</title>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="container-fluid">
+          <a
+            class="navbar-brand text-light"
+            style="margin: 0 auto"
+            href="{% url 'index' %}"
+          >
+            <img
+              src="{% static 'images/logo-carniceria.jpg' %}"
+              alt="Logo"
+              width="30"
+              height="30"
+              class="d-inline-block align-middle text-center"
+            />
+            Donde xhe karlos
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      {% for msg in messages %}
+      <div
+        class="mx-auto alert alert-danger alert-dismissible fade show col-4"
+        role="alert"
+      >
+        <p>{{ msg }}</p>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %}
+      <div class="container ingreso-codigo-container">
+        <div class="ingreso-codigo-info">
+          <h1 class="mb-3">Ingrese el codigo</h1>
+          <p>
+            Digite el codigo de 6 digitos que hemos enviado a su correo
+            electronico para poder efectuar el cambio definitivo de su clave.
+          </p>
+        </div>
+        <form action="{% url 'cambioExitoso' %}" method="post" class="row">
+          {% csrf_token %}
+          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4">
+            <input
+              type="number"
+              name="primer-numero"
+              id="codigo-primer-numero"
+              max="9"
+              min="0"
+            />
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4">
+            <input
+              type="number"
+              name="segundo-numero"
+              id="codigo-segundo-numero"
+              max="9"
+              min="0"
+            />
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4">
+            <input
+              type="number"
+              name="tercer-numero"
+              id="codigo-tercer-numero"
+              max="9"
+              min="0"
+            />
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4">
+            <input
+              type="number"
+              name="cuarto-numero"
+              id="codigo-cuarto-numero"
+              max="9"
+              min="0"
+            />
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4">
+            <input
+              type="number"
+              name="quinto-numero"
+              id="codigo-quinto-numero"
+              max="9"
+              min="0"
+            />
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4">
+            <input
+              type="number"
+              name="sexto-numero"
+              id="codigo-sexto-numero"
+              max="9"
+              min="0"
+            />
+          </div>
+          <button type="submit" id="enviar-codigo">Confirmar codigo</button>
+        </form>
+        <p id="tiempo-restante">Tiempo: 03:00</p>
+      </div>
+    </main>
+
+    <script>
+      var seconds = 180;
+
+      function updateTimer() {
+        var minutes = Math.floor(seconds / 60);
+        var remainingSeconds = seconds % 60;
+
+        document.getElementById("tiempo-restante").innerHTML =
+          "Tiempo restante: " +
+          minutes +
+          ":" +
+          (remainingSeconds < 10 ? "0" : "") +
+          remainingSeconds;
+
+        if (seconds > 0) {
+          seconds--;
+          setTimeout(updateTimer, 1000);
+        } else {
+          alert("Ha pasado el tiempo, vuelva a intentarlo.");
+          window.location.href = "{% url 'recuperarClave' %}";
+        }
+      }
+
+      updateTimer();
+    </script>
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,30 @@
+{% extends 'crudsTemplates/base.html' %}
+{% load static %}
+
+{% block title %} Eliminar producto {% endblock title%}
+
+{% block contents %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-10 offset-1">
+            <h3>Confirmar Eliminacion de Producto</h3>
+            <div class="alert alert-danger h5">
+                ¿Estas seguro de que deseas eliminar al producto {{ producto.nombre }} ?
+            </div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'productosDeCategoria' producto.tipo_id %}" class="btn btn-dark">Cancelar</a>
+                </div>
+                <div class="col">
+                    <button class="btn btn-danger" type="submit">Confirmar Eliminación</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock contents %}

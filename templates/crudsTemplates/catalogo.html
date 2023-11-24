@@ -1,0 +1,26 @@
+{% extends 'crudsTemplates/base.html' %}
+
+{% load static %}
+
+{% block title %}Catálogo{% endblock title %}
+
+{% block contents %}
+
+<main>
+    <div class="categorias-container d-flex justify-content-center">
+        {% for categoria in categorias %}
+        <div class="card shadow p-3 mb-5 bg-body-tertiary rounded container-categorias" style="width: 18rem;">
+            <img src="{{ categoria.fotoTipo.url }}" class="card-img-top" alt="Imagen de la categoría" width="50"
+                height="200">
+            <div class="card-body">
+                <h5 class="card-title">{{ categoria.nombreTipo }}</h5>
+                <p class="card-text">{{ categoria.descripcionTipo }}</p>
+                <a href="{% url 'productosDeCategoria' categoria.idTipoprod %}"
+                    class="btn btn-outline-info mt-3 float-end">Ver productos</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+{% endblock contents%}

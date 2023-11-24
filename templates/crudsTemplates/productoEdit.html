@@ -1,0 +1,84 @@
+{% extends 'crudsTemplates/base.html' %}
+{% load static %}
+
+{% block title %} Editar producto {% endblock title%}
+
+{% block contents %}
+<div class="container">
+    <div class="row">
+        <div class="col col-lg-10 offset-1">
+            <div class="h2">Modificar Producto</div>
+            <form method="post" class="formulario" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    {{ form.non_field_errors }}
+                    <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                        <div class="mb-2 letra">
+                            <label for="id_nombre">Nombre Producto:</label>
+                        </div>
+                        {{form.nombre}}
+                        <div class="letra ">
+                            {{form.nombre.errors}}
+                        </div>
+                    </div>
+                    <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                        <div class="mb-2 letra">
+                            <label for="id_marcaProduc">Marca Producto:</label>
+                        </div>
+                        {{form.marcaProduc}}
+                        <div class="letra ">
+                            {{form.marcaProduc.errors}}
+                        </div>
+                    </div>
+                    <div class="form-floating centralizar  w-50 mt-2 mb-2">
+                        {{form.tipo}}
+                        <div class="letra ">
+                            {{form.tipo.errors}}
+                        </div>
+                    </div>
+                    <div class="form-floating centralizar  w-50 mt-2 mb-2 mb-2">
+                        <div class="mb-2 letra">
+                            <label for="id_precio">Precio Producto:</label>
+                        </div>
+                        {{form.precio}}
+                        <div class="letra ">
+                            {{form.precio.errors}}
+                        </div>
+                    </div>
+                    <div class="form-floating centralizar  w-50 mt-2 mb-2 mb-2">
+                        <div class="mb-2 letra">
+                            <label for="id_precio">Kilage del Producto:</label>
+                        </div>
+                        {{form.kilage}}
+                        <div class="letra ">
+                            {{form.kilage.errors}}
+                        </div>
+                    </div>
+                    <div class="form-floating centralizar  w-50 mt-2 mb-2 mb-2">
+                        <div class="mb-2 letra">
+                            <label for="id_precio">Stock (trozos, bolsas):</label>
+                        </div>
+                        {{form.stock}}
+                        <div class="letra ">
+                            {{form.stock.errors}}
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3 centralizar">
+                        <div class="row">
+                            <div class="col">
+                                <img src="{% static 'images/producto.png' %}" alt="imagen de un producto" width="150"
+                                    height="auto" class="mx-auto my-auto d-block">
+                                <label for="foto" class="letra">Foto del producto</label>
+                                {{ form.imagenProduc }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col centralizar">
+                    <button type="submit" class="btn btn-warning">Modificar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock contents %}

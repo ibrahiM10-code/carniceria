@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <title>Cambio exitoso</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand text-light" style="margin: 0 auto;" href="{% url 'index' %}">
+                    <img src="{% static 'images/logo-carniceria.jpg' %}" alt="Logo" width="30" height="30"
+                        class="d-inline-block align-middle text-center">
+                    Donde xhe karlos
+                </a>
+            </div>
+        </nav>
+    </header>
+    <div class="alert-container">
+        <h1>Cambio exitoso!</h1>
+        <h3>Su clave ha sido actualizada satisfactoriamente.</h3>
+        <a href="{% url 'index' %}">Regresar al inicio</a>
+    </div>
+</body>
+
+</html>

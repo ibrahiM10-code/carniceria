@@ -1,0 +1,93 @@
+{% extends 'crudsTemplates/base.html' %}
+{% load static %}
+
+{% block title %}Resultados{% endblock title%}
+
+{% block contents %}
+<div class="container mt-5">
+    {% if cantidad_productos > 0 %}
+    <h1>Resultados</h1>
+    <div class="table-responsive mt-5">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Marca</th>
+                    <th>Tipo</th>
+                    <th>Precio</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ forloop.counter}}</td>
+                    <td>{{producto.idProducto}}</td>
+                    <td>{{producto.nombre}}</td>
+                    <td>
+                        {{producto.marcaProduc}}
+                    </td>
+                    <td>{{producto.tipo.nombreTipo}}</td>
+                    <td>{{producto.precio}}</td>
+                    <td>
+                        <img src="{{ producto.imagenProduc.url }}" alt="foto del producto" width="50" height="auto">
+                    </td>
+                    <td>
+                        <a class="btn btn-warning btn-sm"
+                            href="{% url 'editarProducto' producto.idProducto %}">Modificar</a>
+                        <a class="btn btn-danger btn-sm"
+                            href="{% url 'eliminarProducto' producto.idProducto %}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% elif cantidad_cajeros > 0 %}
+    <table class="table table-borderd table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Rut</th>
+                <th>Nombre</th>
+                <th>Paterno</th>
+                <th>Materno</th>
+                <th>NumeroContacto</th>
+                <th>Email</th>
+                <th>Fecha de nacimiento</th>
+                <th>Fecha creado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for cajero in cajeros %}
+            <tr>
+                <td>{{ forloop.counter}}</td>
+                <td>{{cajero.rut}}</td>
+                <td>{{cajero.nombre}}</td>
+                <td>{{cajero.paterno}}</td>
+                <td>{{cajero.materno}}</td>
+                <td>{{cajero.numeroContacto}}</td>
+                <td>{{cajero.email}}</td>
+                <td>{{cajero.fechaNac}}</td>
+                <td>{{cajero.creado}}</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" href="{% url 'modificarCajero' cajero.rut %}">Modificar</a>
+                    <a class="btn btn-danger btn-sm" href="{% url 'eliminarCajero' cajero.rut %}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+{% elif cantidad_cajeros == 0 and cantidad_productos == 0 %}
+<div class="container mt-5">
+    <h2>No se han encontrado resultados que coincidan con esa consulta.</h2>
+</div>
+{% endif %}
+{% endblock contents %}

@@ -1,0 +1,22 @@
+{% extends 'crudsTemplates/base.html' %}
+
+{% load static %}
+
+{% block title %}Eliminar cajero{% endblock title%}
+
+{% block contents %}
+
+<main>
+    <div class="container eliminar-container">
+        <div class="alert alert-danger col-3 text-center alerta-eliminar" role="alert">
+            ¿Desea eliminar al cajero {{ cajero.nombre }}?
+        </div>
+        <form method="post" class="form-eliminar">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí</button>
+            <a href="{% url 'ingresarCajero' %}" class="btn btn-primary">No</a>
+        </form>
+    </div>
+</main>
+
+{% endblock contents%}

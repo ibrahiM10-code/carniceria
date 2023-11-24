@@ -1,0 +1,28 @@
+{% extends 'crudsTemplates/base.html' %}
+
+{% load static %}
+
+{% block title %}Editar categoría{% endblock title%}
+
+{% block contents %}
+
+<main>
+    <div class="categoria-form-container">
+        <form method="post" class="categoria-form" autocomplete="off" enctype="multipart/form-data">
+            <h4 class="mb-5">Edita esta categoría</h4>
+            {% csrf_token %}
+            {{ form.nombreTipo.label_tag }}
+            {{ form.nombreTipo }}
+            {{ form.nombreTipo.errors }}
+            {{ form.descripcionTipo.label_tag }}
+            {{ form.descripcionTipo }}
+            {{ form.descripcionTipo.errors }}
+            {{ form.fotoTipo.label_tag }}
+            {{ form.fotoTipo }}
+            {{ form.fotoTipo.errors }}
+            <input type="submit" id="ingresar-categoria-btn" value="Editar categoría">
+        </form>
+    </div>
+</main>
+
+{% endblock contents %}

@@ -1,0 +1,15 @@
+{% extends 'navbar.html' %}
+{% block content %}
+{% load static %}
+{% if result %}
+<h1>Buscaste "{{ result }}" </h1>
+<br>
+{% for embutido in embutidos %}
+{% if result.lower in embutido.lower %}
+<a href="{% url 'vistaProducto' embutido %}">{{ embutido }}</a>
+{% endif %}
+{% endfor %}
+{% else %}
+<h1>¿Qué haces aquí?</h1>
+{% endif %}
+{% endblock %}

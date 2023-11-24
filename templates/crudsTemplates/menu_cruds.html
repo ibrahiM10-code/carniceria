@@ -1,0 +1,18 @@
+{% extends 'crudsTemplates/base.html' %}
+{% load static %}
+
+{% block title %}Menu{% endblock title %}
+
+{% block contents %}
+
+<main>
+    <div class="wrapper text-center">
+        <div class="btns-container">
+            <a href="{% url 'catalogoCategorias' %}">Ir al catálogo</a>
+            <a href="{% url 'ingresarCategorias' %}">CRUD de Categorías</a>
+            <a href="{% url 'ingresarCajero' %}">CRUD de Cajeros</a>
+        </div>
+    </div>
+</main>
+
+{% endblock contents %}

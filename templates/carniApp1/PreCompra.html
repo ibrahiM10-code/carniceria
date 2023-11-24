@@ -1,0 +1,83 @@
+{% extends 'carniApp1/navbar.html' %} {% block content %}
+
+<body>
+  {% load static %}
+  <main id="main1">
+    <!-- {% comment %} <div class="contenedor mt-4">
+                <div class="carta">
+                    
+                    {% for client in cliente%}
+                    <div class="descripcion  mt-4">
+                        <h3 class="text-center"><strong>Descripción</strong></h3>
+                        <div class="">
+                            <div>
+                                <p class="subTitulo"><strong>Nombre del cliente:</strong></p>
+                                <input type="text" value="{{client.nombre}}" readonly>
+                            </div>
+                            <div>
+                                <p class=" subTitulo mt-4"><strong>El codigo es:</strong></p>
+                                <input type="text" id="codigo" value="" readonly>
+                            </div>
+                            <div>
+                                <p class=" subTitulo mt-4"><strong>Monto total:</strong></p>
+                                <input type="text" id="codigo" value="30,000" readonly>
+                            </div>
+                            <div>
+                                <p class=" subTitulo mt-4"><strong>Estado:</strong></p>
+                                <input type="text" id="codigo" value="En espera" readonly>
+                            </div>
+                        </div>                    
+                    </div>
+                    {% endfor%}
+
+                    <div class="galeria_contenedor">
+                        <h1 class="text-center"><strong>Productos Precomprados</strong></h1>
+                            <div class="galeria ">
+                                {% for codigo,detalle in carnes.items%}
+                                <div>
+                                    <h2 class="text-center">{{detalle.0}}</h2>
+                                    <img class="img-fluid" src="{%static 'images/'%}{{detalle.1}}" alt="">
+                                    <div class="mt-2">
+                                        <label for=""><strong>KG </strong></label>
+                                        <input type="text" name="" id="kg" readonly value="{{detalle.2}}">
+                                    </div>
+                                </div>
+                                {%endfor%}
+    
+                        </div>
+                    </div>
+            </div>
+        </div> {% endcomment %} -->
+
+    <h1>{{ user.username }} Precompras</h1>
+
+    {% if precompras_usuario %}
+    <ul>
+      {% for precompra in precompras_usuario %}
+      <li>
+        <strong>Order Number:</strong> {{ precompra.id }}<br />
+        <strong>Order Date:</strong> {{ precompra.fecha_precompra }}<br />
+        <strong>Order Total:</strong> ${{ precompra.total_precompra }}<br />
+        <strong>Order Status:</strong> {{ precompra.estado }}<br />
+        <!-- Display other order details as needed -->
+        <hr />
+        <br />
+        <!-- Display order details for the current order -->
+        {% for order_detail in detalles_precompras %}
+        <p>
+          Product: {{ order_detail.nombre_producto }}<br />
+          Quantity: {{ order_detail.cantidad_comprada }} KG<br />
+          Price: ${{ order_detail.precio_producto }}<br />
+        </p>
+        {% endfor %}
+
+        <hr />
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No orders found for this user.</p>
+    {% endif %}
+  </main>
+  {% endblock %}
+</body>
