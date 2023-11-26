@@ -33,7 +33,7 @@
   </div>
   <div class="container lista-compras-container">
     <h2 class="mt-5 mb-5">Mi lista de compras</h2>
-    <form action="{% url 'crearOrden' %}" method="post">
+    <form method="post">
       {% csrf_token %} {% for producto in carrito %}
       <div class="lista-productos d-flex mb-4">
         <img src="{{ producto.imagenProduc.url }}" class="img-producto mt-3" alt="imagen del producto" />
@@ -50,10 +50,55 @@
           <button class="btn_resta" type="button" id="{{ forloop.counter }}" data-producto="{{venta.id}}">
             -
           </button>
+          <input type="hidden" name="nombreProductos" value="{{ producto.nombre }}" />
+          <input type="hidden" name="cantidadProductos" id="inputCantidad" value="{{ producto.cantidad }}" />
+          <input type="hidden" name="precioPorProductos" id="inputPrecio" value="{{ producto.precio }}" />
+          <!-- <button type="submit" formaction="{% url 'quitarProducto' producto.idProducto %}"
+            class="btn btn-danger">Eliminar</button> -->
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+            data-bs-target="#exampleModal{{ forloop.counter }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-trash" viewBox="0 0 16 16">
+                <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                <path
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+            </svg>
+        </button>
+        <div class="modal-container">
+                    <div class="modal fade modal-sm" id="exampleModal{{ forloop.counter }}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Del Carrito</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body formulario">
+                                    <div class="row ">
+                                        <div class="col mb-3 letra">
+                                            ¿Estas seguro de que deseas eliminar el producto {{ producto.nombre }} del
+                                            carro de compra ?
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="modal-footer">
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Cancelar</a>
+                                            </div>
+                                            <div class="col">
+                                                <button class="btn btn-danger" formaction="{% url 'quitarProducto' producto.idProducto %}" type="submit">Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
-        <input type="hidden" name="nombreProductos" value="{{ producto.nombre }}" />
-        <input type="hidden" name="cantidadProductos" id="inputCantidad" value="{{ producto.cantidad }}" />
-        <input type="hidden" name="precioPorProductos" id="inputPrecio" value="{{ producto.precio }}" />
       </div>
       {% endfor %}
       <div class="metodo-compra d-block mt-5">
@@ -77,12 +122,8 @@
       </div>
       <div class="detalles-compra float-end">
         <h3 id="total">Total: ${{ precio_final }}</h3>
-        <button class="btn-pago" id="btn-pagar-ya" type="submit">
-          Pagar ya
-        </button>
-        <button class="btn-pago" id="btn-pre-compra" type="submit">
-          Realizar pre-compra
-        </button>
+        <input class="btn-pago" id="btn-pagar-ya" type="submit" name="pagarYa" formaction="{% url 'crearOrden' %}">
+        <input class="btn-pago" id="btn-pre-compra" type="submit" name="precompra" formaction="{% url 'crearOrden' %}">
       </div>
       <input type="hidden" name="precio_final" id="precioTotal" value="{{ precio_final }}" />
       <input type="hidden" name="check-compra" />

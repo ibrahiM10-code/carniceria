@@ -4,12 +4,7 @@
   <div class="container vista-producto-container">
     <div class="vista-producto-img d-inline">
       {% load static %}
-      <img
-        class="img-fluid"
-        width="300px"
-        src="{% static 'images/' %}{{imagen}}"
-        alt=""
-      />
+      <img class="img-fluid" width="300px" src="{% static 'images/' %}{{imagen}}" alt="" />
     </div>
     <div class="vista-producto-detalles float-end">
       <h2>{{ nombre }}</h2>
@@ -29,12 +24,7 @@
           <input type="hidden" name="nombre" value="{{nombre}}" />
           <input type="hidden" name="marca" value="{{marca}}" />
           <input type="hidden" name="tipo" value="{{tipo}}" />
-          <input
-            type="hidden"
-            name="precio"
-            id="inputPrecio"
-            value="{{precio}}"
-          />
+          <input type="hidden" name="precio" id="inputPrecio" value="{{precio}}" />
           <input type="hidden" name="imagen" value="{{imagen}}" />
           <input type="hidden" name="cantidad" id="inputCantidad" value="1" />
           <input type="hidden" name="contador" value="vacio" />
@@ -46,17 +36,9 @@
     </div>
   </div>
   {% for msg in messages %}
-  <div
-    class="mx-auto alert alert-success alert-dismissible fade show col-4 h-50"
-    role="alert"
-  >
+  <div class="mx-auto alert alert-success alert-dismissible fade show col-4 h-50" role="alert">
     <p>{{ msg }}</p>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-    ></button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   {% endfor %}
 </main>

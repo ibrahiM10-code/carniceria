@@ -17,18 +17,10 @@ Que esto se aplique bajo un if stock == 0
         <section>
           <div class="alert alert-Danger">Catalogo de productos</div>
           <form method="get">
-            <input
-              type="submit"
-              name="ordenar"
-              value="Ordenar de Mayor a Menor Precio"
-            />
+            <input type="submit" name="ordenar" value="Ordenar de Mayor a Menor Precio" />
           </form>
           <form method="get">
-            <input
-              type="submit"
-              name="ordenar2"
-              value="Ordenar de Menor Precio a Mayor"
-            />
+            <input type="submit" name="ordenar2" value="Ordenar de Menor Precio a Mayor" />
           </form>
           <div class="row">
             {% for producto in producto %}
@@ -39,11 +31,8 @@ Que esto se aplique bajo un if stock == 0
                     {{producto.nombre}}
                   </div>
                   <div class="card-body">
-                    <img
-                      class="img-fluid w-100"
-                      src="{{ producto.imagenProduc.url }}"
-                      alt="imagenes del producto {{producto.nombre}}"
-                    />
+                    <img class="img-fluid w-100" src="{{ producto.imagenProduc.url }}"
+                      alt="imagenes del producto {{producto.nombre}}" />
                     <ul class="mt-5 text-start fs-4">
                       <li>Marca: {{producto.marcaProduc}}</li>
                     </ul>
@@ -51,30 +40,13 @@ Que esto se aplique bajo un if stock == 0
                   <div class="card-footer bg-danger h-1">
                     ${{producto.precio}} x kilo <br />
                     <br />
-
                     <input type="hidden" name="contador" value="0" />
                     <input type="hidden" name="codigo" value="{{ codigo }}" />
-                    <input
-                      type="hidden"
-                      name="nombre"
-                      value="{{producto.nombre}}"
-                    />
-                    <input
-                      type="hidden"
-                      name="marca"
-                      value="{{producto.marcaProduc}}"
-                    />
-                    <input
-                      type="hidden"
-                      name="tipo"
-                      value="{{ producto.tipo_id }}"
-                    />
-                    <input
-                      type="hidden"
-                      name="precio"
-                      value="{{producto.precio}}"
-                    />
-                    <input type="hidden" name="imagen" value="{{detalle.4}}" />
+                    <input type="hidden" name="nombre" value="{{producto.nombre}}" />
+                    <input type="hidden" name="marca" value="{{producto.marcaProduc}}" />
+                    <input type="hidden" name="tipo" value="{{ producto.tipo_id }}" />
+                    <input type="hidden" name="precio" value="{{producto.precio}}" />
+                    <input type="hidden" name="imagen" value="{{producto.imagenProduc.url}}" />
                     <input type="hidden" name="cantidad" value="2" />
                     <input type="submit" value="detalle" />
                   </div>

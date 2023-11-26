@@ -68,6 +68,7 @@ def editar_producto(request,idProducto):
     url = f"/panel-admin/lista_productos/{producto.tipo_id}"
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES, instance=producto)
+        print(form.errors)
         if form.is_valid():
             if "foto" in request.FILES:
                 producto.foto = request.FILES["foto"]

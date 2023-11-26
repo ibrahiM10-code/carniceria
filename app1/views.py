@@ -135,7 +135,8 @@ def interiores(request):
         productos = {"producto": datos.interioresMe}
     else:
         # Mostrar productos sin ordenar
-        productos = {"producto": datos.interiores}
+        productosS = Producto.objects.filter(tipo_id=7)
+        productos = {"producto": productosS}
     return render(request, "carniApp1/cerdo.html", productos)
 
 
@@ -159,7 +160,8 @@ def pavo(request):
         productos = {"producto": datos.pavoMe}
     else:
         # Mostrar productos sin ordenar
-        productos = {"producto": datos.pavo}
+        productosS = Producto.objects.filter(tipo_id=2)
+        productos = {"producto": productosS}
     return render(request, "carniApp1/pavo.html", productos)
 
 # Funcion para sumar precios de forma estatica.
@@ -180,13 +182,15 @@ def lista_compras(request):
     carrito_todo = Carrito.objects.filter(usuario=usuario)
     data = {"precio_final": 0,
             'carrito':carrito_todo}
-    print(request.user)
-    if request.method == 'POST':
-        producto_id = request.POST.get('producto_id')
-        productoCarrito = get_object_or_404(Carrito, idProducto=producto_id)
-        productoCarrito.delete()
-        return redirect('carrito')
     return render(request, "carniApp1/lista_compras.html", data)
+
+def quitar_producto_carrito(request, idProducto):
+    print(request.POST)
+    if request.method == "POST":
+        productoCarrito = get_object_or_404(Carrito, idProducto=idProducto)
+        productoCarrito.delete()
+        messages.success(request, "Producto eliminado del carrito!")
+        return redirect('/miCarrito/')
 
 # Vista para ver las compras realizadas.
 def detalle_compra(request):
@@ -204,12 +208,6 @@ def Precompra(request):
     return render(request, "carniApp1/PreCompra.html", {"precompras_usuario": precompras_usuario, "detalles_precompras": detalles_precompras})
 
 # Vista para visualizar un producto en singular.
-# def vista_producto(request, nombre):
-#     producto = None
-#     for id, embutido in datos.embutidos.items():
-#         if nombre.lower() in embutido[0].lower():
-#             producto = embutido
-#     return render(request, "vista_producto.html", {"detalles_producto": producto})
 def vista_producto(request):
     contador = request.GET.get('contador',None)
     codigo = request.GET.get('codigo', None)  # None es un valor predeterminado si 'codigo' no está presente
@@ -219,60 +217,68 @@ def vista_producto(request):
     marca = request.GET.get('marca',None)
     tipo = request.GET.get('tipo',None)
     cantidad = request.GET.get('cantidad',None)
-    usuario = get_object_or_404(Usuario, nombre_usuario=request.user)
+    if str(request.user) != "AnonymousUser" and str(request.user) != "ibrahim":
+        usuario = get_object_or_404(Usuario, nombre_usuario=request.user)
+        if tipo=="Vacuno":
+            tipo=1
+        else:
+            pass
 
-    
+        if tipo=="Cerdo":
+            tipo = 3
+        else:
+            pass
 
-    if tipo=="Vacuno":
-        tipo=1
+        if tipo=="Embutido":
+            tipo=4
+        else:
+            pass
+
+        if tipo=="Pollo":
+            tipo=5
+        else:
+            pass
+
+        if tipo=="Pavo":
+            tipo=6
+        else:
+            pass
+
+        producto = Carrito(
+            nombre=nombre,
+            cantidad=cantidad,
+            marcaProduc=marca,
+            tipo_id_id=tipo,
+            precio=precio,
+            imagen=imagen,
+            usuario=usuario
+        )
+
+        if contador == "vacio":
+            producto.save()
+            messages.success(request, "Agregado al carrito correctamente!")
+
+        respuesta = {
+            'contador':contador,
+            'codigo':codigo,
+            'imagen':imagen,
+            'precio':precio,
+            'nombre':nombre,
+            'marca':marca,
+            'tipo':tipo,
+        }
     else:
-        pass
+        print(request.user)
+        respuesta = {
+            'contador':contador,
+            'codigo':codigo,
+            'imagen':imagen,
+            'precio':precio,
+            'nombre':nombre,
+            'marca':marca,
+            'tipo':tipo,
+        }
 
-    if tipo=="Cerdo":
-        tipo = 3
-    else:
-        pass
-
-    if tipo=="Embutido":
-        tipo=4
-    else:
-        pass
-
-    if tipo=="Pollo":
-        tipo=5
-    else:
-        pass
-
-    if tipo=="Pavo":
-        tipo=6
-    else:
-        pass
-
-    producto = Carrito(
-        nombre=nombre,
-        cantidad=cantidad,
-        marcaProduc=marca,
-        tipo_id_id=tipo,
-        precio=precio,
-        imagen=imagen,
-        usuario=usuario
-    )
-
-    if contador == "vacio":
-        producto.save()
-        messages.success(request, "Agregado al carrito correctamente!")
-    else:
-        pass
-
-    respuesta = {
-        'contador':contador,
-        'codigo':codigo,
-        'imagen':imagen,
-        'precio':precio,
-        'nombre':nombre,
-        'marca':marca,
-        'tipo':tipo,
-    }
 
     return render(request,'carniApp1/vista_producto.html',respuesta)
 
@@ -413,8 +419,7 @@ def formatea_lista(cant_productos, nombre_productos, dolar, len_productos):
 
 # Vista necesaria para crear la orden.
 def create_order(request):
-    global items_list
-    print(request.POST)
+    global items_list, precio_final
     if len(request.POST.getlist("cantidadProductos")[0]) == 1:
         cantidades_de_productos = request.POST.getlist("cantidadProductos")
         precios = request.POST.getlist("precioPorProductos")
@@ -437,6 +442,7 @@ def create_order(request):
     productos = len(request.POST.getlist("nombreProductos"))
     checkbox_compra = request.POST.getlist("check-compra")
     checkbox_precompra = request.POST.getlist("check-precompra")
+    precio_final = request.POST.getlist("precio_final")[0]
 
     response_dolar_api = requests.get(url=DOLAR_API)
     valor_dolar_actual = response_dolar_api.json()["serie"][0]["valor"]
@@ -467,10 +473,8 @@ def create_order(request):
     }
 
     if checkbox_compra[0] == "on":
-        global compra, compras
+        global compra
         compra = 1
-        usuario_obj = get_object_or_404(Usuario, nombre_usuario=request.user)
-        compras = Compra.objects.create(total_compra=request.POST.getlist("precio_final")[0], usuario=usuario_obj)
     elif checkbox_precompra[0] == "on":
         usuario_obj = get_object_or_404(Usuario, nombre_usuario=request.user)
         precompras = PreCompra.objects.create(total_precompra=request.POST.getlist("precio_final")[0], usuario=usuario_obj)
@@ -509,6 +513,8 @@ def capture_order(request):
     )
     print(response.json())
     if response.status_code == 201 and compra == 1:
+        usuario_obj = get_object_or_404(Usuario, nombre_usuario=request.user)
+        compras = Compra.objects.create(total_compra=precio_final, usuario=usuario_obj)
         for item in items_list:
             DetalleCompra.objects.create(
                     compra=compras, nombre_producto=item["name"],

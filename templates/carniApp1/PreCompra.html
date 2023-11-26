@@ -1,9 +1,9 @@
 {% extends 'carniApp1/navbar.html' %} {% block content %}
 
 <body>
-  {% load static %}
-  <main id="main1">
-    <!-- {% comment %} <div class="contenedor mt-4">
+    {% load static %}
+    <main id="main1">
+        <!-- {% comment %} <div class="contenedor mt-4">
                 <div class="carta">
                     
                     {% for client in cliente%}
@@ -49,35 +49,37 @@
             </div>
         </div> {% endcomment %} -->
 
-    <h1>{{ user.username }} Precompras</h1>
+        <h1>{{ user.username }} Precompras</h1>
 
-    {% if precompras_usuario %}
-    <ul>
-      {% for precompra in precompras_usuario %}
-      <li>
-        <strong>Order Number:</strong> {{ precompra.id }}<br />
-        <strong>Order Date:</strong> {{ precompra.fecha_precompra }}<br />
-        <strong>Order Total:</strong> ${{ precompra.total_precompra }}<br />
-        <strong>Order Status:</strong> {{ precompra.estado }}<br />
-        <!-- Display other order details as needed -->
-        <hr />
-        <br />
-        <!-- Display order details for the current order -->
-        {% for order_detail in detalles_precompras %}
-        <p>
-          Product: {{ order_detail.nombre_producto }}<br />
-          Quantity: {{ order_detail.cantidad_comprada }} KG<br />
-          Price: ${{ order_detail.precio_producto }}<br />
-        </p>
-        {% endfor %}
+        {% if precompras_usuario %}
+        <ul>
+            {% for precompra in precompras_usuario %}
+            <li>
+                <strong>Order Number:</strong> {{ precompra.id }}<br />
+                <strong>Order Date:</strong> {{ precompra.fecha_precompra }}<br />
+                <strong>Order Total:</strong> ${{ precompra.total_precompra }}<br />
+                <strong>Order Status:</strong> {{ precompra.estado }}<br />
+                <!-- Display other order details as needed -->
+                <hr />
+                <br />
+                <!-- Display order details for the current order -->
+                {% for order_detail in detalles_precompras %}
+                {% if precompra.id == order_detail.precompra_id %}
+                <p>
+                    Product: {{ order_detail.nombre_producto }}<br />
+                    Quantity: {{ order_detail.cantidad_comprada }} KG<br />
+                    Price: ${{ order_detail.precio_producto }}<br />
+                </p>
+                {% endif %}
+                {% endfor %}
 
-        <hr />
-      </li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p>No orders found for this user.</p>
-    {% endif %}
-  </main>
-  {% endblock %}
+                <hr />
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No orders found for this user.</p>
+        {% endif %}
+    </main>
+    {% endblock %}
 </body>

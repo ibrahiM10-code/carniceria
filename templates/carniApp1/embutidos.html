@@ -15,28 +15,28 @@
                         <input type="submit" name="ordenar2" value="Ordenar de Menor Precio a Mayor">
                     </form>
                     <div class="row">
-                        {% for codigo,detalle in producto.items %}
+                        {% for producto in producto %}
                         <div class="col col-lg-4 mt-4">
                             <form action="{% url 'vista_producto' %}" method="get">
                                 <div class="card">
-                                    <div class="card-header bg-danger h-2 ">{{detalle.0}}</div>
+                                    <div class="card-header bg-danger h-2 ">{{ producto.nombre }}</div>
                                     <div class="card-body">
-                                        <img class="img-fluid w-100" src="{% static 'images/' %}{{detalle.4}}"
+                                        <img class="img-fluid w-100" src="{{ producto.imagenProduc.url }}"
                                             alt="imagenes del producto {{detalle.0}}">
                                         <ul class="mt-5 text-start fs-4">
-                                            <li>Marca: {{detalle.1}}</li>
+                                            <li>Marca: {{ producto.marcaProduc }}</li>
                                         </ul>
                                     </div>
                                     <div class=" card-footer bg-danger h-1 ">
-                                        ${{detalle.3}} x kilo <br> <br>
+                                        ${{ producto.precio }} x kilo <br> <br>
 
                                         <input type="hidden" name="contador" value=0>
                                         <input type="hidden" name="codigo" value="{{ codigo }}">
-                                        <input type="hidden" name="nombre" value="{{detalle.0}}">
-                                        <input type="hidden" name="marca" value="{{detalle.1}}">
-                                        <input type="hidden" name="tipo" value="{{detalle.2}}">
-                                        <input type="hidden" name="precio" value="{{detalle.3}}">
-                                        <input type="hidden" name="imagen" value="{{detalle.4}}">
+                                        <input type="hidden" name="nombre" value="{{producto.nombre}}" />
+                                        <input type="hidden" name="marca" value="{{producto.marcaProduc}}" />
+                                        <input type="hidden" name="tipo" value="{{ producto.tipo_id }}" />
+                                        <input type="hidden" name="precio" value="{{producto.precio}}" />
+                                        <input type="hidden" name="imagen" value="{{producto.imagenProduc.url}}" />
                                         <input type="hidden" name="cantidad" value="1">
                                         <input type="submit" value="detalle">
                                     </div>

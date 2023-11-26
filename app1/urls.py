@@ -28,6 +28,7 @@ urlpatterns = [
     path("create-order/", vista.create_order, name="crearOrden"),
     path("capture-order/", vista.capture_order, name="capturarOrden"),
     path("cancel-order/", vista.cancel_order, name="cancelarOrden"),
+    path("del_producto_carrito/<int:idProducto>", vista.quitar_producto_carrito, name="quitarProducto")
 ]
 
 if settings.DEBUG:

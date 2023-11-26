@@ -86,12 +86,12 @@ aves = {
     118:['Presitas de pollo','Don Pollo','Pollo',4100,'polloP.png'],
     119:['Truto Entero','Don Pollo','Pollo',3290,'trutopollo.png'],
     120:['Pechuga Entera','Don Pollo','Pollo',4290,'polloPechuga.png'],
-    121:['Pechuga Deshuesada','Don Pollo','Pollo',5500,'pechugadeshue.png'],
+    # 121:['Pechuga Deshuesada','Don Pollo','Pollo',5500,'pechugadeshue.png'],
     122:['Pata de pollo','Don Pollo','Pollo',2400,'patapollo.png'],
-    123:['Contre pollo','Don Pollo','Pollo',1200,'contrepollo.png'],
+    # 123:['Contre pollo','Don Pollo','Pollo',1200,'contrepollo.png'],
     124:['Higado de pollo','Don Pollo','Pollo',1200,'higadopollo.png'],
-    125:['Truto ala','Don Pollo','Pollo',4500,'trutoala.png'],
-    126:['Alas de pollo','Don Pollo','Pollo',3990,'alapollo.png'],
+    # 125:['Truto ala','Don Pollo','Pollo',4500,'trutoala.png'],
+    # 126:['Alas de pollo','Don Pollo','Pollo',3990,'alapollo.png'],
 }
 avesMa = {
     121:['Pechuga Deshuesada','Don Pollo','Pollo',5500,'pechugadeshue.png'],
