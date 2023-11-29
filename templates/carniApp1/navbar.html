@@ -28,9 +28,10 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <form action="" method="get" class="d-flex" role="search">
+                    <form action="{% url 'resultados' %}" method="post" class="d-flex" role="search">
+                        {% csrf_token %}
                         <input class="form-control me-2" id="busqueda" type="search" placeholder="Buscar"
-                            aria-label="Search" name="valor" />
+                            aria-label="Search" name="buscaProducto" />
                         <button class="btn btn-dark" type="submit">Buscar</button>
                     </form>
                     <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
@@ -57,7 +58,7 @@
                             <a href="{% url 'registro' %}" class="nav-link text-light">Crear una cuenta</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'login' %}" class="nav-link text-light">Iniciar sesion</a>
+                            <a href="{% url 'login' %}" class="nav-link text-light">Iniciar sesión</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" href="#footer">Contactos</a>
@@ -108,7 +109,7 @@
         <footer id="footer">
             <div class="footer">
                 <ul class="seguir">
-                    <li><strong class="fs-2">Siguenos</strong></li>
+                    <li><strong class="fs-2">Síguenos</strong></li>
                     <li class="dos mt-4">
                         <a
                             href="https://www.facebook.com/people/Donde-Xhekarlos/pfbid03216x4oV9gMHgsDNMwLZ3BUiDxGGyYggmvGVon8KLXFpZrb1MDpvrTtjxwc5xzev1l/?mibextid=ZbWKwL">
@@ -119,14 +120,14 @@
                 </ul>
 
                 <ul class="direccion">
-                    <li class="text-center"><strong class="fs-2">Direccion</strong></li>
+                    <li class="text-center"><strong class="fs-2">Dirección</strong></li>
                     <li class="text-center fs-4 mt-4">
                         Avenida Portugal 281 las torres
                     </li>
                 </ul>
 
                 <ul class="contacto">
-                    <li class="text-center fs-2"><strong>Contactanos</strong></li>
+                    <li class="text-center fs-2"><strong>Contáctanos</strong></li>
                     <li class="dos mt-4">
                         <img width="50px" src="{% static 'images/whattsapp.png'%}" alt="" />
                         <p class="mx-2 fs-4">+56958588204</p>

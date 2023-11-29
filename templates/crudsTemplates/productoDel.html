@@ -5,26 +5,15 @@
 
 {% block contents %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-10 offset-1">
-            <h3>Confirmar Eliminacion de Producto</h3>
-            <div class="alert alert-danger h5">
-                ¿Estas seguro de que deseas eliminar al producto {{ producto.nombre }} ?
-            </div>
+<div class="container eliminar-container">
+        <div class="alert alert-danger col-3 text-center alerta-eliminar" role="alert">
+            ¿Desea eliminar {{ producto.nombre }} de la lista?
         </div>
-        <form method="post">
+        <form method="post" class="form-eliminar">
             {% csrf_token %}
-            <div class="row">
-                <div class="col">
-                    <a href="{% url 'productosDeCategoria' producto.tipo_id %}" class="btn btn-dark">Cancelar</a>
-                </div>
-                <div class="col">
-                    <button class="btn btn-danger" type="submit">Confirmar Eliminación</button>
-                </div>
-            </div>
+            <button type="submit" class="btn btn-danger">Sí</button>
+            <a href="{% url 'productosDeCategoria' producto.tipo_id %}" class="btn btn-primary">No</a>
         </form>
-    </div>
 </div>
 
 {% endblock contents %}

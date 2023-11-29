@@ -21,42 +21,31 @@
       <h1>Bienvenido/a</h1>
     </div>
 
-    {% comment %}
-    <div class="sesion">
-      <h3 class="mb-4">Inicio sesión</h3>
-      <label>Correo electronico</label>
-      <input type="text" value="" id="correo" />
 
-      <label>Contraseña</label>
-      <input class="mb-4" type="text" value="" id="contraseña" />
-
-      <button onclick="validar()"><a href="#">Iniciar</a></button>
-
-      <p>¿No tienes una cuenta?, haga click <a href="">aqui</a></p>
-    </div>
-    {% endcomment %}
     {% if messages %}
-      <div class="alert alert-success" role="alert">
-        <ul class="messages">
-          {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
+    <div class="alert alert-success" role="alert">
+      <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
 
-    <form method="post">
+    <form method="post" class="login-form shadow">
       {% csrf_token %}
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Username</label>
+      <h3 class="text-center mb-5">Iniciar sesión</h3>
+      <div class="mb-4">
+        <label for="exampleInputEmail1" class="form-label">Nombre de usuario</label>
         <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username" />
       </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
+      <div class="mb-5">
+        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
         <input type="password" class="form-control" id="exampleInputPassword1" name="password" />
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-      <a href="{% url 'recuperarClave' %}">Forgot your password? Click here</a>
+      <a href="{% url 'recuperarClave' %}" style="display: block;" class="text-info">Si olvidó su clave, haga clic
+        aquí.</a>
+      <button type="submit" class="mt-4 btn btn-danger">Iniciar sesión</button>
     </form>
   </main>
 

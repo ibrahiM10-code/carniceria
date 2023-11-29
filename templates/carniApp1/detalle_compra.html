@@ -3,82 +3,35 @@
 <body>
     {% load static %}
     <main>
-        <h1>{{ user.username }} Orders</h1>
-
+        <!-- <h1>{{ user.username }} Orders</h1> -->
+        <h1>Mis Compras</h1>
         {% if users_orders %}
-        <ul>
-            {% for order in users_orders %}
-            <li>
-                <strong>Order Number:</strong> {{ order.id }}<br>
-                <strong>Order Date:</strong> {{ order.fecha_compra }}<br>
-                <strong>Order Total:</strong> ${{ order.total_compra }}<br>
-                <!-- Display other order details as needed -->
-                <hr><br>
-                <!-- Display order details for the current order -->
-                {% for order_detail in detalle_compra %}
-                {% if order.id == order_detail.compra_id %}
-                <p>
-                    Product: {{ order_detail.nombre_producto }}<br>
-                    Quantity: {{ order_detail.cantidad_comprada }} KG<br>
-                    Price: ${{ order_detail.precio_producto }}<br>
-                </p>
-                {% endif %}
+        <div>
+            <ul class="mt-5">
+                {% for order in users_orders %}
+                <li class="mb-5">
+                    <strong>Número de la compra:</strong> {{ order.id }}<br>
+                    <strong>Fecha de la compra:</strong> {{ order.fecha_compra }}<br>
+                    <strong>Total:</strong> ${{ order.total_compra }}<br>
+                    <hr>
+                    {% for order_detail in detalle_compra %}
+                    {% if order.id == order_detail.compra_id %}
+                    <p>
+                        Producto comprado: {{ order_detail.nombre_producto }}<br>
+                        Cantidad: {{ order_detail.cantidad_comprada }} KG<br>
+                        Precio total: ${{ order_detail.precio_producto }}<br>
+                    </p>
+                    {% endif %}
+                    {% endfor %}
+
+                    <hr>
+                </li>
                 {% endfor %}
-
-                <hr>
-            </li>
-            {% endfor %}
-        </ul>
+            </ul>
+        </div>
         {% else %}
-        <p>No orders found for this user.</p>
+        <p>No has realizado ninguna compra aún.</p>
         {% endif %}
-
-        <!-- <div class="contenedor">
-            <div class="carta">
-                <div class="fecha">
-                    <h1 id="fecha2"></h1>
-                </div>
-
-                {% for client in cliente%}
-                <div class="descripcion mt-4">
-                    <h3 class="text-center"><strong>Descripción</strong></h3>
-                    <div class="">
-                        <div>
-                            <p class="subTitulo"><strong>Nombre del cliente:</strong></p>
-                            <input type="text" value="{{client.nombre}}" readonly />
-                        </div>
-                        <div>
-                            <p class="subTitulo"><strong>Codigo de compra:</strong></p>
-                            <input type="text" value="{{client.nroOrden2}}" readonly />
-                        </div>
-                        <div>
-                            <p class="subTitulo"><strong>Cantidad comprada:</strong></p>
-                            <input class="mb-2" type="text" value="{{client.cantidad}}" readonly />
-                        </div>
-                    </div>
-                </div>
-                {% endfor%}
-
-                <div class="galeria_contenedor">
-                    <h1 class="text-center"><strong>Productos Comprados</strong></h1>
-                    <div class="galeria">
-                        {% for codigo,detalle in carne2.items%}
-                        <div>
-                            <h2 class="text-center">{{detalle.0}}</h2>
-                            <img id="imgn" class="img-fluid" src="{% static 'images/' %}{{detalle.1}}" alt="" />
-                            <div class="mt-2">
-                                <label for=""><strong>KG </strong></label>
-                                <input type="text" name="" id="kg" readonly value="{{detalle.2}}" />
-                            </div>
-                        </div>
-                        {%endfor%}
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-
-
 
     </main>
     {% endblock %}

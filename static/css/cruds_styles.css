@@ -42,6 +42,12 @@ nav {
 }
 
 .categoria-form-container {
+    display: inline-block;
+    margin-left: 200px;
+    margin-top: 90px;
+}
+
+.categoria-form-container-edit {
     display: flex;
     justify-content: center;
     margin-top: 90px;
@@ -66,7 +72,7 @@ nav {
     margin-top: 1rem;
     width: 100%;
     padding: 8px 10px;
-    background-color: #B0D9B1;
+    background-color: #509b52;
     transition: .5s;
     border: 1px solid #618264;
     border-radius: 10px;

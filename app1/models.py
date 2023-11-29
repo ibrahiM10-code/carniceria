@@ -292,7 +292,26 @@ class Usuario(models.Model):
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
         ordering = ['rut','nombre']
+
+class Cajero(models.Model):
+    rut = models.CharField(primary_key=True,max_length=10,verbose_name="RUT")
+    nombre = models.CharField(max_length=50,verbose_name="Nombres")
+    paterno = models.CharField(max_length=50,verbose_name="Apellido paterno")
+    materno = models.CharField(blank=True,null=True, max_length=50,verbose_name="Apellido materno")
+    numeroContacto = models.PositiveIntegerField(default=912345678,verbose_name="Numero de contacto")
+    email = models.CharField(max_length=100,verbose_name="Correo del usuario")
+    contraseña = models.CharField(max_length=100,verbose_name="Contraseña del usuario")
+    fechaNaci = models.DateField(verbose_name="Fecha de nacimiento")
+    fecha_contratacion = models.DateField(verbose_name="Fecha de contratacion", default=timezone.now)
+    creado = models.DateTimeField(default=timezone.now)
+
+    def __str__(self) -> str:
+        return "{} {} {} {}".format(self.rut,self.nombre,self.paterno, self.fecha_contratacion)
         
+    class Meta:
+        db_table = 'cajero'
+        verbose_name = 'Cajero'
+        verbose_name_plural = 'Cajeros'
 
 class TipoProducto(models.Model):
     idTipoprod = models.BigAutoField(primary_key=True)

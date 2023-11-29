@@ -7,55 +7,61 @@
 {% block contents %}
 
 <main>
-    <div class="categoria-form-container">
-        <form method="post" class="categoria-form" autocomplete="off" enctype="multipart/form-data">
-            <h4 class="mb-5">Agregue una nueva categoría</h4>
-            {% csrf_token %}
-            {{ form.nombreTipo.label_tag }}
-            {{ form.nombreTipo }}
-            {{ form.nombreTipo.errors }}
-            {{ form.descripcionTipo.label_tag }}
-            {{ form.descripcionTipo }}
-            {{ form.descripcionTipo.errors }}
-            {{ form.fotoTipo.label_tag }}
-            {{ form.fotoTipo }}
-            {{ form.fotoTipo.errors }}
-            <input type="submit" id="ingresar-categoria-btn" value="Ingresar categoría">
-        </form>
-    </div>
-    <hr style="width: 90%; margin:130px auto;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-5">
+                <div class="categoria-form-container">
+                    <form method="post" class="categoria-form" autocomplete="off" enctype="multipart/form-data">
+                        <h4 class="mb-5">Agregue una nueva categoría</h4>
+                        {% csrf_token %}
+                        {{ form.nombreTipo.label_tag }}
+                        {{ form.nombreTipo }}
+                        {{ form.nombreTipo.errors }}
+                        {{ form.descripcionTipo.label_tag }}
+                        {{ form.descripcionTipo }}
+                        {{ form.descripcionTipo.errors }}
+                        {{ form.fotoTipo.label_tag }}
+                        {{ form.fotoTipo }}
+                        {{ form.fotoTipo.errors }}
+                        <input type="submit" id="ingresar-categoria-btn" value="Ingresar categoría">
+                    </form>
+                </div>
+            </div>
+            <!-- <hr style="width: 90%; margin:130px auto;"> -->
+            <div class="col-6">
+                {% if cantidad_categorias > 0 %}
+                <table class="table table-bordered table-stripped table-hover" style="margin-top: 150px;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Imagen</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for categoria in categorias %}
+                        <tr>
+                            <td>{{ categoria.idTipoprod }}</td>
+                            <td>{{ categoria.nombreTipo }}</td>
+                            <td>{{ categoria.descripcionTipo }}</td>
+                            <td><img src="{{ categoria.fotoTipo.url }}" width="50" height="auto" alt=""></td>
+                            <td>
+                                <a href="{% url 'eliminarCategoria' categoria.idTipoprod %}"
+                                    class="btn btn-danger float-end ms-3">Eliminar</a>
+                                <a href="{% url 'editarCategoria' categoria.idTipoprod %}"
+                                    class="btn btn-warning float-end ">Modificar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-    {% if cantidad_categorias > 0 %}
-    <div class="container" style="margin-bottom: 200px;">
-        <table class="table table-bordered table-stripped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Imagen</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for categoria in categorias %}
-                <tr>
-                    <td>{{ categoria.idTipoprod }}</td>
-                    <td>{{ categoria.nombreTipo }}</td>
-                    <td>{{ categoria.descripcionTipo }}</td>
-                    <td><img src="{{ categoria.fotoTipo.url }}" width="50" height="auto" alt=""></td>
-                    <td>
-                        <a href="{% url 'eliminarCategoria' categoria.idTipoprod %}"
-                            class="btn btn-danger float-end ms-3">Eliminar</a>
-                        <a href="{% url 'editarCategoria' categoria.idTipoprod %}"
-                            class="btn btn-warning float-end ">Modificar</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                {% endif %}
+            </div>
+        </div>
     </div>
-    {% endif %}
 </main>
 
 {% endblock contents %}

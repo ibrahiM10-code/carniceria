@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, QueryDict
 from django.urls import reverse
 from app1 import models as datos
-from app1.models import Carrito, Producto, Usuario, Compra, PreCompra, DetalleCompra, DetallePreCompra
+from app1.models import Carrito, Producto, Usuario, Compra, PreCompra, DetalleCompra, DetallePreCompra, TipoProducto
 from app1.forms import ClienteForm
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -10,7 +10,7 @@ from requests.auth import HTTPBasicAuth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from dotenv import load_dotenv
-import random, os, requests, json
+import random, os, requests, json, smtplib
 
 # Carga las variables de entorno.
 load_dotenv()
@@ -81,33 +81,36 @@ def registrar_usuario(request):
 def carnes(request):
     if request.method == "GET" and "ordenar" in request.GET:
         # Ordenar productos de mayor a menor precio
-        productos = {"producto": datos.carnesordeM}
+        productos = {"producto": Producto.objects.filter(tipo_id=3).order_by("-precio")}
+        print(productos)
     elif request.method == "GET" and "ordenar2" in request.GET:
-        productos = {"producto": datos.carnesordeMe}
+        productos = {"producto": Producto.objects.filter(tipo_id=3).order_by("precio")}
     else:
         # Mostrar productos sin ordenar
-        productos = {"producto": datos.carnes}
+        productosS = Producto.objects.filter(tipo_id=3)
+        productos = {"producto": productosS}
     return render(request, "carniApp1/carne.html", productos)
 
 
 def embutidos(request):
     if request.method == "GET" and "ordenar" in request.GET:
         # Ordenar productos de mayor a menor precio
-        productos = {"producto": datos.embutidosordeM}
+        productos = {"producto": Producto.objects.filter(tipo_id=7).order_by("-precio")}
     elif request.method == "GET" and "ordenar2" in request.GET:
-        productos = {"producto": datos.embutidosordeMe}
+        productos = {"producto": Producto.objects.filter(tipo_id=7).order_by("precio")}
     else:
         # Mostrar productos sin ordenar
-        productos = {"producto": datos.embutidos}
+        productosS = Producto.objects.filter(tipo_id=7)
+        productos = {"producto": productosS}
     return render(request, "carniApp1/embutidos.html", productos)
 
 
-def aves(request):
+def aves(request): # Pollos
     if request.method == "GET" and "ordenar" in request.GET:
       #  Ordenar productos de mayor a menor precio
-        productos = {"producto": datos.avesMa}
+        productos = {"producto": Producto.objects.filter(tipo_id=1).order_by("-precio")}
     elif request.method == "GET" and "ordenar2" in request.GET:
-        productos = {"producto": datos.avesMe}
+        productos = {"producto": Producto.objects.filter(tipo_id=1).order_by("precio")}
     else:
         # Mostrar productos sin ordenar
         productosS = Producto.objects.filter(tipo_id=1)
@@ -118,64 +121,53 @@ def aves(request):
 def cerdo(request):
     if request.method == "GET" and "ordenar" in request.GET:
         # Ordenar productos de mayor a menor precio
-        productos = {"producto": datos.cerdoMa}
+        productos = {"producto": Producto.objects.filter(tipo_id=6).order_by("-precio")}
     elif request.method == "GET" and "ordenar2" in request.GET:
-        productos = {"producto": datos.cerdoMe}
+        productos = {"producto": Producto.objects.filter(tipo_id=6).order_by("precio")}
     else:
         # Mostrar productos sin ordenar
-        productos = {"producto": datos.cerdo}
+        productosS = Producto.objects.filter(tipo_id=6)
+        productos = {"producto": productosS}
     return render(request, "carniApp1/cerdo.html", productos)
 
 
 def interiores(request):
     if request.method == "GET" and "ordenar" in request.GET:
         # Ordenar productos de mayor a menor precio
-        productos = {"producto": datos.interioresMa}
+        productos = {"producto": Producto.objects.filter(tipo_id=5).order_by("-precio")}
     elif request.method == "GET" and "ordenar2" in request.GET:
-        productos = {"producto": datos.interioresMe}
+        productos = {"producto": Producto.objects.filter(tipo_id=5).order_by("precio")}
     else:
         # Mostrar productos sin ordenar
-        productosS = Producto.objects.filter(tipo_id=7)
+        productosS = Producto.objects.filter(tipo_id=5)
         productos = {"producto": productosS}
-    return render(request, "carniApp1/cerdo.html", productos)
+    return render(request, "carniApp1/interiores.html", productos)
 
 
 def cazuela(request):
     if request.method == "GET" and "ordenar" in request.GET:
         # Ordenar productos de mayor a menor precio
-        productos = {"producto": datos.cazuelaMa}
+        productos = {"producto": Producto.objects.filter(tipo_id=4).order_by("-precio")}
     elif request.method == "GET" and "ordenar2" in request.GET:
-        productos = {"producto": datos.cazuelaMe}
+        productos = {"producto": Producto.objects.filter(tipo_id=4).order_by("precio")}
     else:
         # Mostrar productos sin ordenar
-        productos = {"producto": datos.cazuela}
-    return render(request, "carniApp1/cerdo.html", productos)
+        productosS = Producto.objects.filter(tipo_id=4)
+        productos = {"producto": productosS}
+    return render(request, "carniApp1/cazuelas.html", productos)
 
 
 def pavo(request):
     if request.method == "GET" and "ordenar" in request.GET:
         # Ordenar productos de mayor a menor precio
-        productos = {"producto": datos.pavoMa}
+        productos = {"producto": Producto.objects.filter(tipo_id=2).order_by("-precio")}
     elif request.method == "GET" and "ordenar2" in request.GET:
-        productos = {"producto": datos.pavoMe}
+        productos = {"producto": Producto.objects.filter(tipo_id=2).order_by("precio")}
     else:
         # Mostrar productos sin ordenar
         productosS = Producto.objects.filter(tipo_id=2)
         productos = {"producto": productosS}
     return render(request, "carniApp1/pavo.html", productos)
-
-# Funcion para sumar precios de forma estatica.
-# def suma_precios():
-#     total = 0
-#     for i in range(len(datos.ventas)):
-#         total += datos.ventas[i]["precio"]
-#     return total
-
-# Vista para la lista de compras
-# def lista_compras(request):
-#     total_compra = suma_precios()
-#     data = {"ventas": datos.ventas, "precio_final": total_compra}
-#     return render(request, "carniApp1/lista_compras.html", data)
 
 def lista_compras(request):
     usuario = get_object_or_404(Usuario, nombre_usuario=request.user)
@@ -208,7 +200,9 @@ def Precompra(request):
     return render(request, "carniApp1/PreCompra.html", {"precompras_usuario": precompras_usuario, "detalles_precompras": detalles_precompras})
 
 # Vista para visualizar un producto en singular.
-def vista_producto(request):
+def vista_producto(request, idProducto):
+    producto_encontrado = get_object_or_404(Producto, idProducto=idProducto)
+    print(producto_encontrado)
     contador = request.GET.get('contador',None)
     codigo = request.GET.get('codigo', None)  # None es un valor predeterminado si 'codigo' no está presente
     imagen = request.GET.get('imagen',None)
@@ -219,88 +213,150 @@ def vista_producto(request):
     cantidad = request.GET.get('cantidad',None)
     if str(request.user) != "AnonymousUser" and str(request.user) != "ibrahim":
         usuario = get_object_or_404(Usuario, nombre_usuario=request.user)
-        if tipo=="Vacuno":
+        if tipo=="Carne (vacuno)":
             tipo=1
-        else:
-            pass
+            producto = Carrito(
+                nombre=nombre,
+                cantidad=cantidad,
+                marcaProduc=marca,
+                tipo_id=get_object_or_404(TipoProducto, idTipoprod=tipo),
+                precio=precio,
+                imagen=imagen,
+                usuario=usuario
+            )
 
-        if tipo=="Cerdo":
+            if contador == "vacio":
+                producto.save()
+                messages.success(request, "Agregado al carrito correctamente!")
+        elif tipo=="Cerdo":
             tipo = 3
-        else:
-            pass
-
-        if tipo=="Embutido":
-            tipo=4
-        else:
-            pass
-
-        if tipo=="Pollo":
-            tipo=5
-        else:
-            pass
-
-        if tipo=="Pavo":
-            tipo=6
-        else:
-            pass
-
-        producto = Carrito(
+            producto = Carrito(
             nombre=nombre,
             cantidad=cantidad,
             marcaProduc=marca,
-            tipo_id_id=tipo,
+            tipo_id=get_object_or_404(TipoProducto, idTipoprod=tipo),
             precio=precio,
             imagen=imagen,
             usuario=usuario
         )
 
-        if contador == "vacio":
-            producto.save()
-            messages.success(request, "Agregado al carrito correctamente!")
+            if contador == "vacio":
+                producto.save()
+                messages.success(request, "Agregado al carrito correctamente!")
+        elif tipo=="Embutidos":
+            tipo=4
+            producto = Carrito(
+            nombre=nombre,
+            cantidad=cantidad,
+            marcaProduc=marca,
+            tipo_id=get_object_or_404(TipoProducto, idTipoprod=tipo),
+            precio=precio,
+            imagen=imagen,
+            usuario=usuario
+        )
+
+            if contador == "vacio":
+                producto.save()
+                messages.success(request, "Agregado al carrito correctamente!")
+        elif tipo=="Pollos":
+            tipo=5
+            producto = Carrito(
+            nombre=nombre,
+            cantidad=cantidad,
+            marcaProduc=marca,
+            tipo_id=get_object_or_404(TipoProducto, idTipoprod=tipo),
+            precio=precio,
+            imagen=imagen,
+            usuario=usuario
+        )
+
+            if contador == "vacio":
+                producto.save()
+                messages.success(request, "Agregado al carrito correctamente!")
+        elif tipo=="Pavos":
+            tipo=6
+            producto = Carrito(
+            nombre=nombre,
+            cantidad=cantidad,
+            marcaProduc=marca,
+            tipo_id=get_object_or_404(TipoProducto, idTipoprod=tipo),
+            precio=precio,
+            imagen=imagen,
+            usuario=usuario
+        )
+
+            if contador == "vacio":
+                producto.save()
+                messages.success(request, "Agregado al carrito correctamente!")
+        elif tipo == "Cazuela (vacuno)":
+            tipo=2
+            producto = Carrito(
+            nombre=nombre,
+            cantidad=cantidad,
+            marcaProduc=marca,
+            tipo_id=get_object_or_404(TipoProducto, idTipoprod=tipo),
+            precio=precio,
+            imagen=imagen,
+            usuario=usuario
+        )
+
+            if contador == "vacio":
+                producto.save()
+                messages.success(request, "Agregado al carrito correctamente!")
+        elif tipo == "Interiores (vacuno)":
+            tipo=7
+            producto = Carrito(
+            nombre=nombre,
+            cantidad=cantidad,
+            marcaProduc=marca,
+            tipo_id=get_object_or_404(TipoProducto, idTipoprod=tipo),
+            precio=precio,
+            imagen=imagen,
+            usuario=usuario
+        )
+
+            if contador == "vacio":
+                producto.save()
+                messages.success(request, "Agregado al carrito correctamente!")
+        else:
+            pass
 
         respuesta = {
-            'contador':contador,
-            'codigo':codigo,
-            'imagen':imagen,
-            'precio':precio,
-            'nombre':nombre,
-            'marca':marca,
-            'tipo':tipo,
+            'contador': contador,
+            'codigo': producto_encontrado.idProducto,
+            'imagen': producto_encontrado.imagenProduc.url,
+            'precio': producto_encontrado.precio,
+            'nombre': producto_encontrado.nombre,
+            'descripcion': producto_encontrado.descripcion,
+            'marca': producto_encontrado.marcaProduc,
+            'tipo': producto_encontrado.tipo
         }
     else:
         print(request.user)
         respuesta = {
             'contador':contador,
-            'codigo':codigo,
-            'imagen':imagen,
-            'precio':precio,
-            'nombre':nombre,
-            'marca':marca,
-            'tipo':tipo,
+            'codigo': producto_encontrado.idProducto,
+            'imagen': producto_encontrado.imagenProduc.url,
+            'precio': producto_encontrado.precio,
+            'nombre': producto_encontrado.nombre,
+            'descripcion': producto_encontrado.descripcion,
+            'marca': producto_encontrado.marcaProduc,
+            'tipo': producto_encontrado.tipo
         }
 
 
     return render(request,'carniApp1/vista_producto.html',respuesta)
 
 def resultado_busqueda(request):
-    productos = []
-    if request.method == "GET":
-        busqueda = request.GET.get("resultado")
-        for id, embutido in datos.embutidos.items():
-            if busqueda.lower() in embutido[0].lower():
-                productos.append(embutido[0])
-        for id, interior in datos.interiores.items():
-            if busqueda.lower() in interior[0].lower():
-                productos.append(interior[0])
-        if len(productos) > 0:
-            print(productos)
-            return render(
-                request,
-                "resultados.html",
-                {"result": busqueda, "embutidos": productos},
-            )
-    return render(request, "carniApp1/resultados.html", {})
-
+    if request.method == "POST":
+        producto_consultado = request.POST["buscaProducto"]
+        producto_buscar = Producto.objects.filter(nombre__icontains=producto_consultado)
+        if len(producto_buscar) > 0:
+            return render(request, "carniApp1/resultados.html", {"productos_encontrados": producto_buscar, "encontrado": True, "consulta": producto_consultado})
+        else:
+            return render(request, "carniApp1/resultados.html", {"consulta": producto_consultado, "encontrado": False})    
+    else:
+        return render(request, "carniApp1/resultados.html", {"encontrado": False})
 
 def recuperar_clave(request):
     mensaje_error = False
@@ -327,11 +383,11 @@ def codigo_recuperacion(request):
             print("Code: {}".format(code))
             # with smtplib.SMTP(host="smtp-mail.outlook.com", port=587) as connection:
             #     connection.starttls()
-            #     connection.login(user=DESDE_EMAIL, password=PSW_EMAIL)
+            #     connection.login(user=os.getenv("DESDE_EMAIL"), password=os.getenv("PSW_EMAIL"))
             #     connection.sendmail(
-            #         from_addr=DESDE_EMAIL,
+            #         from_addr=os.getenv("DESDE_EMAIL"),
             #         to_addrs=correo,
-            #         msg=f"From: <{DESDE_EMAIL}> To: <{correo}> Subject: Verification Code!\n\nPsst... this is your code -> {code}",
+            #         msg=f"From: <{os.getenv('DESDE_EMAIL')}> To: <{correo}> Subject: Verification Code!\n\nPsst... this is your code -> {code}",
             #     )
         elif correo != correo_usuario_db:
             messages.error(
@@ -374,12 +430,12 @@ def cambio_exitoso(request):
         else:
             print("logrado")
             user_nueva_clave = get_object_or_404(Usuario, email=correo)
-            user_admin_nueva_clave = get_object_or_404(User, email=correo)
-            print(user_admin_nueva_clave)
+            # user_admin_nueva_clave = get_object_or_404(User, email=correo)
+            # print(user_admin_nueva_clave)
             user_nueva_clave.contraseña = clave1
-            user_admin_nueva_clave.set_password(clave1)
+            # user_admin_nueva_clave.set_password(clave1)
             user_nueva_clave.save()
-            user_admin_nueva_clave.save()
+            # user_admin_nueva_clave.save()
 
     return render(request, "carniApp1/cambio_exitoso.html")
 
@@ -522,6 +578,9 @@ def capture_order(request):
                     precio_producto=Producto.objects.filter(nombre=item["name"]).values("precio")[0].get("precio"),
                     imagen=Producto.objects.filter(nombre=item["name"]).values("imagenProduc")[0].get("imagenProduc")   
                 )
+            producto_stock = Producto.objects.filter(nombre=item["name"]).values("stock")[0].get("stock")
+            nuevo_stock = abs(producto_stock - int(item["quantity"]))
+            Producto.objects.filter(nombre=item["name"]).update(stock=nuevo_stock)
         print("Compra hecha!")
         # Elimina los productos del carrito del usuario.
         usuario = get_object_or_404(Usuario, nombre_usuario=request.user)

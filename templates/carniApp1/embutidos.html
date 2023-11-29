@@ -1,44 +1,48 @@
 {% extends 'carniApp1/navbar.html' %}
 {% block content %}
-
 <body>
     {% load static %}
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-lg">
                 <section>
-                    <div class="alert alert-Danger"> Catalogo de productos</div>
-                    <form method="get">
-                        <input type="submit" name="ordenar" value="Ordenar de Mayor a Menor Precio">
-                    </form>
-                    <form method="get">
-                        <input type="submit" name="ordenar2" value="Ordenar de Menor Precio a Mayor">
-                    </form>
+                    <div class="row mt-4">
+                        <div class="col-md-12 text-md-end">
+                            <form class="d-flex justify-content-end">
+                                <button type="submit" name="ordenar" class="btn btn-info me-2">
+                                    Ordenar de Mayor a Menor Precio
+                                </button>
+                                <button type="submit" name="ordenar2" class="btn btn-info">
+                                    Ordenar de Menor a Mayor Precio
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                     <div class="row">
                         {% for producto in producto %}
-                        <div class="col col-lg-4 mt-4">
-                            <form action="{% url 'vista_producto' %}" method="get">
+                        <div class="col-lg-4 col-md-6 mb-4 mt-3">
+                            <form action="{% url 'vista_producto' producto.idProducto %}" method="get">
                                 <div class="card">
-                                    <div class="card-header bg-danger h-2 ">{{ producto.nombre }}</div>
-                                    <div class="card-body">
-                                        <img class="img-fluid w-100" src="{{ producto.imagenProduc.url }}"
-                                            alt="imagenes del producto {{detalle.0}}">
-                                        <ul class="mt-5 text-start fs-4">
-                                            <li>Marca: {{ producto.marcaProduc }}</li>
-                                        </ul>
+                                    <div class="card-header bg-danger text-white">{{ producto.nombre }}</div>
+                                    <div class="card-body p-0">
+                                        <img class="img-fluid w-100 rounded-top" src="{{ producto.imagenProduc.url }}"
+                                            alt="Imagen del producto {{producto.nombre }}"> 
                                     </div>
-                                    <div class=" card-footer bg-danger h-1 ">
-                                        ${{ producto.precio }} x kilo <br> <br>
+                                    <div class="card-footer bg-danger text-white">
+                                        <div class="text-start fs-5 text-white">
+                                            Marca: {{producto.marcaProduc}}<br>
+                                            Precio: ${{ producto.precio }} x kilo
+                                        </div>
 
-                                        <input type="hidden" name="contador" value=0>
-                                        <input type="hidden" name="codigo" value="{{ codigo }}">
+                                        <input type="hidden" name="contador" value="0" />
+                                        <input type="hidden" name="codigo" value="{{ codigo }}" />
                                         <input type="hidden" name="nombre" value="{{producto.nombre}}" />
                                         <input type="hidden" name="marca" value="{{producto.marcaProduc}}" />
                                         <input type="hidden" name="tipo" value="{{ producto.tipo_id }}" />
                                         <input type="hidden" name="precio" value="{{producto.precio}}" />
                                         <input type="hidden" name="imagen" value="{{producto.imagenProduc.url}}" />
-                                        <input type="hidden" name="cantidad" value="1">
-                                        <input type="submit" value="detalle">
+                                        <input type="hidden" name="cantidad" value="2" />
+                                        <input type="submit" value="Detalle" class="btn btn-dark mt-2">
                                     </div>
                                 </div>
                             </form>
@@ -49,4 +53,4 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+{% endblock %}

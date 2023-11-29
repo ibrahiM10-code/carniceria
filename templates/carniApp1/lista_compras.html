@@ -23,7 +23,7 @@
       </div>
     </nav>
   </header>
-  <div class="row mt-5">
+  <div class="row mt-4">
     {% for msg in messages %}
     <div class="mx-auto alert alert-danger alert-dismissible fade show col-4 h-50" role="alert">
       <p>{{ msg }}</p>
@@ -36,7 +36,7 @@
     <form method="post">
       {% csrf_token %} {% for producto in carrito %}
       <div class="lista-productos d-flex mb-4">
-        <img src="{{ producto.imagenProduc.url }}" class="img-producto mt-3" alt="imagen del producto" />
+        <img src="{{ producto.imagen }}" class="img-producto mt-3" alt="imagen del producto" />
         <div class="datos-producto pt-3 ms-4">
           <p class="text-break">{{ producto.nombre }}</p>
           <p>Kilos: {{ producto.cantidad }}</p>
@@ -78,8 +78,8 @@
                                 <div class="modal-body formulario">
                                     <div class="row ">
                                         <div class="col mb-3 letra">
-                                            ¿Estas seguro de que deseas eliminar el producto {{ producto.nombre }} del
-                                            carro de compra ?
+                                            ¿Está seguro que desea eliminar el producto {{ producto.nombre }} del
+                                            carro de compra?
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
         <h5>Seleccione su método de compra</h5>
         <div class="compra pt-3 mb-3">
           <label class="">Compra</label>
-          <input type="checkbox" name="check-compra" id="chkbx-compra" onclick=" checkBtn()" />
+          <input type="checkbox" name="check-compra" id="chkbx-compra" onclick="checkBtn()" />
         </div>
         <div class="pre-compra">
           <label class="">Pre-compra</label>
@@ -113,7 +113,7 @@
         </div>
       </div>
       <div class="metodo-pago-container mt-5 mb-5">
-        <h5>Seleccione Paypal como su método de pago</h5>
+        <h5>Se realizará su pago con Paypal</h5>
         <div class="metodos-pago d-inline-block mt-4">
           <button id="btn-paypal">
             <img src="{% static 'images/paypal.png' %}" alt="logo de paypal" />
@@ -122,8 +122,8 @@
       </div>
       <div class="detalles-compra float-end">
         <h3 id="total">Total: ${{ precio_final }}</h3>
-        <input class="btn-pago" id="btn-pagar-ya" type="submit" name="pagarYa" formaction="{% url 'crearOrden' %}">
-        <input class="btn-pago" id="btn-pre-compra" type="submit" name="precompra" formaction="{% url 'crearOrden' %}">
+        <input class="btn-pago" id="btn-pagar-ya" value="Pagar ya" type="submit" name="pagarYa" formaction="{% url 'crearOrden' %}">
+        <input class="btn-pago" id="btn-pre-compra" value="Realizar Pre-Compra" type="submit" name="precompra" formaction="{% url 'crearOrden' %}">
       </div>
       <input type="hidden" name="precio_final" id="precioTotal" value="{{ precio_final }}" />
       <input type="hidden" name="check-compra" />

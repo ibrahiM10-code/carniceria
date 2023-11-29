@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app1',
     'carniCruds',
+    'rest_framework',
+    'carniRest',
 ]
 
 MIDDLEWARE = [

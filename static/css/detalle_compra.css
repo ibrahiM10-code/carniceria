@@ -1,16 +1,21 @@
 
+
 main {
     display: grid;
     grid-template-columns: repeat(1,minmax(min(350px,100%),1fr));
-    grid-template-rows: auto auto;
+
     justify-items: center;
     grid-column: 1/4;
-    padding: 30px;
+    padding: 19.7px;
 
 }
 
 .subTitulo{
     font-size: 20px;
+}
+
+.titulo{
+    grid-column: 2/4;
 }
 
 div h5{
@@ -55,6 +60,8 @@ div h5{
     width: 100%;
     overflow-y: scroll;
     justify-items: center;
+    margin-top: 25px;
+    background-color: whitesmoke;
     
 
 }
@@ -63,8 +70,13 @@ div h5{
     grid-template-columns: repeat(auto-fit,minmax(min(150px,100%),1fr));
     gap: 30px;
     border-radius: 10px;
+    background-color: red;
+    width: 80%;
+
+
 
 }
+
 
 input{
     text-align: center;

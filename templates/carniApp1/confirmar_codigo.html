@@ -7,7 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-    <title>Confirmar codigo</title>
+    <title>Confirmar código</title>
   </head>
 
   <body>
@@ -51,8 +51,8 @@
         <div class="ingreso-codigo-info">
           <h1 class="mb-3">Ingrese el codigo</h1>
           <p>
-            Digite el codigo de 6 digitos que hemos enviado a su correo
-            electronico para poder efectuar el cambio definitivo de su clave.
+            Digíte el código de 6 dígitos que hemos enviado a su correo
+            electrónico para poder efectuar el cambio definitivo de su clave.
           </p>
         </div>
         <form action="{% url 'cambioExitoso' %}" method="post" class="row">
@@ -111,7 +111,7 @@
               min="0"
             />
           </div>
-          <button type="submit" id="enviar-codigo">Confirmar codigo</button>
+          <button type="submit" id="enviar-codigo">Confirmar código</button>
         </form>
         <p id="tiempo-restante">Tiempo: 03:00</p>
       </div>

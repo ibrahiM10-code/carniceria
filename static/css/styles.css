@@ -17,6 +17,15 @@ body {
     flex-direction: column;
 }
 
+.c-item {
+    height: 715px;
+}
+
+.c-item-image {
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+}
 
 /* Estilos del navbar */
 nav {

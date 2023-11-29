@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Q
-from app1.models import TipoProducto, Producto, Usuario
-from app1.forms import CategoriaForm, ProductoForm, ClienteForm
+from app1.models import TipoProducto, Producto, Cajero
+from app1.forms import CategoriaForm, ProductoForm, CajeroForm
 from django.contrib.auth.decorators import permission_required
+from django.utils import timezone
 
 # Vista de la página del menu de los cruds.
 def menu(request):
@@ -17,7 +18,7 @@ def categorias(request):
 
 # Vista del formulario para ingresar categorías.
 # También muestra las categorías que existen.
-@permission_required("app1.add_categoria")
+@permission_required("app1.add_categoria", raise_exception=True)
 def ingresar_categoria(request):
     categoria = TipoProducto.objects.all()
     cantidad_categorias = len(categoria)
@@ -35,7 +36,7 @@ def ingresar_categoria(request):
 
 
 # Vista para el formulario de edición de alguna categoría.
-@permission_required("app1.edit_categoria")
+@permission_required("app1.edit_categoria", raise_exception=True)
 def editar_categoria(request, idTipoprod):
     categoria = get_object_or_404(TipoProducto, idTipoprod=idTipoprod)
 
@@ -52,7 +53,7 @@ def editar_categoria(request, idTipoprod):
     return render(request, "crudsTemplates/editar_categorias.html", {"form": form, "categorias": categoria})
 
 # Vista para confirmar la eliminación de una categoría.
-@permission_required("app1.delete_categoria")
+@permission_required("app1.delete_categoria", raise_exception=True)
 def eliminar_categoria(request, idTipoprod):
     categoria = get_object_or_404(TipoProducto, idTipoprod=idTipoprod)
     if request.method == "POST":
@@ -61,7 +62,7 @@ def eliminar_categoria(request, idTipoprod):
     
     return render(request, "crudsTemplates/eliminar_categorias.html", {"categoria": categoria})
 
-@permission_required("app1.edit_producto")
+@permission_required("app1.edit_producto", raise_exception=True)
 def editar_producto(request,idProducto):
     producto = get_object_or_404(Producto,idProducto=idProducto)
     form = ProductoForm(instance=producto)
@@ -80,7 +81,7 @@ def editar_producto(request,idProducto):
     productos = Producto.objects.all()    
     return render(request,'crudsTemplates/productoEdit.html',{'form':form,'productos':productos})
     
-@permission_required("app1.delete_producto")
+@permission_required("app1.delete_producto", raise_exception=True)
 def eliminar_producto(request,idProducto):
     producto = get_object_or_404(Producto, idProducto=idProducto)
     url = f"/panel-admin/lista_productos/{producto.tipo_id}"
@@ -92,7 +93,7 @@ def eliminar_producto(request,idProducto):
 
 
 # Vista para cargar un listado de productos de acuerdo a la categoria.
-@permission_required("app1.view_product")
+@permission_required(["app1.view_producto", "app1.add_producto"], raise_exception=True)
 def productos_categoria(request, idTipoprod):
     categoria = get_object_or_404(TipoProducto, idTipoprod = idTipoprod)
     productos = Producto.objects.filter(tipo=idTipoprod)
@@ -116,42 +117,44 @@ def resultados_busqueda(request, idTipoprod):
     if request.method == "POST":
         consulta = request.POST.get("consulta")
         productos = Producto.objects.filter(Q(nombre__icontains=consulta) | Q(marcaProduc__icontains=consulta) & Q(tipo=idTipoprod))
-        cajeros = Usuario.objects.filter(Q(nombre__icontains=consulta) | Q(paterno__icontains=consulta) | Q(materno__icontains=consulta))
+        cajeros = Cajero.objects.filter(Q(nombre__icontains=consulta) | Q(paterno__icontains=consulta) | Q(materno__icontains=consulta))
         return render(request, "crudsTemplates/resultados_busqueda.html", {"cantidad_productos": len(productos), "productos": productos, "cantidad_cajeros": len(cajeros), "cajeros": cajeros})
     else:
         return render(request, "crudsTemplates/resultados_busqueda.html", {})
     
-@permission_required("app1.view_usuario")
+@permission_required("app1.view_usuario", raise_exception=True)
 def ingresar_cajero(request):
-    usuario = Usuario.objects.all()
+    cajero = Cajero.objects.all()
     if request.method == "POST":
-        form = ClienteForm(request.POST)
+        form = CajeroForm(request.POST)
+        print(form.errors)
         if form.is_valid():
             form.save()
             print("Cajero agregado!")
             return redirect(reverse("ingresarCajero"))
     else:
-        form = ClienteForm()
+        form = CajeroForm(initial={"fecha_contratacion": timezone.now})
 
-    return render(request, "crudsTemplates/ingresar_cajeros.html", {"form": form, "cajeros": usuario, "cantidad_cajeros": len(usuario)})
+    return render(request, "crudsTemplates/ingresar_cajeros.html", {"form": form, "cajeros": cajero, "cantidad_cajeros": len(cajero)})
 
-@permission_required("app1.edit_usuario")
+@permission_required("app1.edit_usuario", raise_exception=True)
 def modificar_cajero(request, idUsuario):
-    usuario = get_object_or_404(Usuario, rut=idUsuario)
+    usuario = get_object_or_404(Cajero, rut=idUsuario)
 
     if request.method == "POST":
-        form = ClienteForm(request.POST, instance=usuario)
+        form = CajeroForm(request.POST, instance=usuario)
+        print(form.errors)
         if form.is_valid():
             form.save()
             return redirect(reverse("ingresarCajero"))
     else:
-        form = ClienteForm(instance=usuario)
+        form = CajeroForm(instance=usuario)
 
     return render(request, "crudsTemplates/editar_cajero.html", {"form": form, "cajeros": usuario})
 
-@permission_required("app1.delete_usuario")
+@permission_required("app1.delete_usuario", raise_exception=True)
 def eliminar_cajero(request, idUsuario):
-    usuario = get_object_or_404(Usuario, rut=idUsuario)
+    usuario = get_object_or_404(Cajero, rut=idUsuario)
 
     if request.method == "POST":
         usuario.delete()

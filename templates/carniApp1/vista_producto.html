@@ -4,19 +4,18 @@
   <div class="container vista-producto-container">
     <div class="vista-producto-img d-inline">
       {% load static %}
-      <img class="img-fluid" width="300px" src="{% static 'images/' %}{{imagen}}" alt="" />
+      <img class="img-fluid" width="300px" src="{{imagen}}" />
     </div>
     <div class="vista-producto-detalles float-end">
       <h2>{{ nombre }}</h2>
       <h3 class="mb-3" id="precio">${{ precio }}</h3>
-      <!-- <p>De la marca "{{ detalles_producto.1 }}" es este "{{ detalles_producto.2 }}"</p> -->
-      <p>Descripción del producto</p>
+      <p>{{ descripcion }}</p>
       <div class="ajustes-cant-producto mt-4">
-        <form action="{% url 'vista_producto' %}">
+        <form action="{% url 'vista_producto' codigo %}">
           <button type="button" class="btn-plus border-0 p-1 bg-btn-agregar">
             +
           </button>
-          <span class="cantidad-kilos ms-2 me-2">1</span>
+          <span class="cantidad-kilos ms-2 me-2 text-dark">1</span>
           <button type="button" class="btn-menos border-0 p-1 bg-btn-agregar">
             -
           </button>
