@@ -187,7 +187,7 @@ def quitar_producto_carrito(request, idProducto):
 # Vista para ver las compras realizadas.
 def detalle_compra(request):
     usuario = get_object_or_404(Usuario, nombre_usuario=request.user)
-    users_orders = Compra.objects.filter(usuario=usuario)
+    users_orders = Compra.objects.filter(usuario=usuario).order_by("-fecha_compra")
     print(users_orders)
     return render(request, "carniApp1/detalle_compra.html", {"carne1": datos.carnes1,"carne2": datos.carnes2,"cliente": datos.cliente, "users_orders": users_orders, "detalle_compra": DetalleCompra.objects.all()})
 
@@ -195,7 +195,7 @@ def detalle_compra(request):
 # Vista para ver las precompras realizadas.
 def Precompra(request):
     usuario = get_object_or_404(Usuario, nombre_usuario=request.user)
-    precompras_usuario = PreCompra.objects.filter(usuario=usuario)
+    precompras_usuario = PreCompra.objects.filter(usuario=usuario).order_by("-fecha_precompra")
     detalles_precompras = DetallePreCompra.objects.all()
     return render(request, "carniApp1/PreCompra.html", {"precompras_usuario": precompras_usuario, "detalles_precompras": detalles_precompras})
 
@@ -377,29 +377,26 @@ def codigo_recuperacion(request):
         request.session["code"] = code
         request.session["correo"] = correo
         request.session["clave1"] = clave1
-        correo_usuario_db = Usuario.objects.filter(email=correo).values("email")[0].get("email")
-        
-        if correo == correo_usuario_db and clave1 == clave2:
-            print("Code: {}".format(code))
-            # with smtplib.SMTP(host="smtp-mail.outlook.com", port=587) as connection:
-            #     connection.starttls()
-            #     connection.login(user=os.getenv("DESDE_EMAIL"), password=os.getenv("PSW_EMAIL"))
-            #     connection.sendmail(
-            #         from_addr=os.getenv("DESDE_EMAIL"),
-            #         to_addrs=correo,
-            #         msg=f"From: <{os.getenv('DESDE_EMAIL')}> To: <{correo}> Subject: Verification Code!\n\nPsst... this is your code -> {code}",
-            #     )
-        elif correo != correo_usuario_db:
-            messages.error(
-                request,
-                "Ha sucedido un error, verifique que el correo este escrito correctamente.",
-            )
+        if len(Usuario.objects.filter(email=correo)) == 0:
+            messages.error(request, "Ha sucedido un error, verifique que el correo este escrito correctamente.")
             return redirect(reverse("recuperarClave"))
-        elif clave1 != clave2:
-            messages.error(
-                request, "Ha sucedido un error, verifique que las claves coincidan."
-            )
-            return redirect(reverse("recuperarClave"))
+        else:
+            correo_usuario_db = Usuario.objects.filter(email=correo).values("email")[0].get("email")
+            if correo == correo_usuario_db and clave1 == clave2:
+                print("Code: {}".format(code))
+                with smtplib.SMTP(host="smtp-mail.outlook.com", port=587) as connection:
+                    connection.starttls()
+                    connection.login(user=os.getenv("DESDE_EMAIL"), password=os.getenv("PSW_EMAIL"))
+                    connection.sendmail(
+                        from_addr=os.getenv("DESDE_EMAIL"),
+                        to_addrs=correo,
+                        msg=f"From: <{os.getenv('DESDE_EMAIL')}> To: <{correo}> Subject: Verification Code!\n\nPsst... this is your code -> {code}",
+                    )
+            elif clave1 != clave2:
+                messages.error(
+                    request, "Ha sucedido un error, verifique que las claves coincidan."
+                )
+                return redirect(reverse("recuperarClave"))
 
     return render(request, "carniApp1/confirmar_codigo.html")
 
