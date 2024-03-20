@@ -29,11 +29,9 @@ def inicio(request):
 # Vista del login.
 def login_user(request):
     if request.method == 'POST':
-        print(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        print(user)
         if user is not None:
             login(request, user)
             print("logged in")
@@ -57,11 +55,7 @@ def registrar_usuario(request):
         diccionario = {'csrfmiddlewaretoken': request.POST.get('csrfmiddlewaretoken'), 'username': request.POST.get('nombre_usuario'), 'password1': request.POST.get("contraseña"), 'password2': request.POST.get("reclave")}
         query_dict = QueryDict('', mutable=True)
         query_dict.update(diccionario)
-        print(request.POST)
-        print(query_dict)
         form2 = UserCreationForm(query_dict)
-        print(form.is_valid(), form2.is_valid())
-        print(form2.errors)
         if form.is_valid() and form2.is_valid(): # verificamos que el formulario pase las validaciones
             form.save() # si las paso entonces guardamos
             form2.save()

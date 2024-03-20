@@ -1,5 +1,4 @@
 .env
-db.sqlite3
-index.html
-paypal_code.paypal_code.py
 .vscode
+dependencies.txt
+Script BD.sql

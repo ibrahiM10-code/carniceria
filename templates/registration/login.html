@@ -3,25 +3,6 @@
 <body>
   {%load static%}
   <main id="main">
-    <div class="alertas">
-      <div class="alerta alert alert-danger aparecer animacion" id="alerta_correo">
-        El correo esta vacio...
-      </div>
-
-      <div class="alerta alert alert-warning aparecer animacion" id="alerta_invalida">
-        Parece que esta cuenta no existe, intente registrarse...
-      </div>
-
-      <div class="alerta alert alert-danger aparecer animacion" id="alerta_contraseña">
-        La contraseña esta vacia...
-      </div>
-    </div>
-
-    <div class="titulo">
-      <h1>Bienvenido/a</h1>
-    </div>
-
-
     {% if messages %}
     <div class="alert alert-success" role="alert">
       <ul class="messages">
@@ -48,6 +29,5 @@
       <button type="submit" class="mt-4 btn btn-danger">Iniciar sesión</button>
     </form>
   </main>
-
   {% endblock %}
 </body>

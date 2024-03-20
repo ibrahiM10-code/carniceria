@@ -29,9 +29,6 @@
             {{ form.contraseña.errors }}
             {{ form.reclave }}
             {{ form.reclave.errors }}
-            {{ form.fecha_contratacion.label }}
-            {{ form.fecha_contratacion }}
-            {{ form.fecha_contratacion.errors }}
             {{ form.fechaNaci.label }}
             {{ form.fechaNaci }}
             {{ form.fechaNaci.errors }}
@@ -54,11 +51,8 @@
                     <th>Rut</th>
                     <th>Nombre</th>
                     <th>Paterno</th>
-                    <th>Materno</th>
                     <th>Número Contacto</th>
                     <th>Email</th>
-                    <th>Fecha de nacimiento</th>
-                    <th>Fecha creado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -70,11 +64,8 @@
                     <td>{{cajero.rut}}</td>
                     <td>{{cajero.nombre}}</td>
                     <td>{{cajero.paterno}}</td>
-                    <td>{{cajero.materno}}</td>
                     <td>{{cajero.numeroContacto}}</td>
                     <td>{{cajero.email}}</td>
-                    <td>{{cajero.fechaNaci}}</td>
-                    <td>{{cajero.creado}}</td>
                     <td>
                         <a class="btn btn-warning btn-sm" href="{% url 'modificarCajero' cajero.rut %}">Modificar</a>
                         <a class="btn btn-danger btn-sm mt-2" href="{% url 'eliminarCajero' cajero.rut %}">Eliminar</a>

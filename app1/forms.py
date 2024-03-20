@@ -39,7 +39,6 @@ class CajeroForm(forms.ModelForm):
     email = forms.CharField(widget=forms.EmailInput(attrs={'class':'form-control','placeholder':'Ingrese Email'}))
     contraseña = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Ingrese Contraseña'}))
     reclave = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Repetir Contraseña'}))
-    fecha_contratacion = forms.CharField(widget=forms.DateInput(attrs={'class': 'form-control', 'type':'date'}), label="Fecha de contratacion")
     fechaNaci = forms.DateField(widget=forms.DateInput(attrs={'class':'form-control','placeholder':'dia/mes/año','type':'date'}), label="Fecha de nacimiento")
 
     def clean_rut(self):
@@ -132,7 +131,7 @@ class CajeroForm(forms.ModelForm):
     
     class Meta:
         model = Cajero
-        fields = ['rut', 'nombre', 'paterno','materno','numeroContacto','email', 'contraseña', 'fecha_contratacion','fechaNaci']
+        fields = ['rut', 'nombre', 'paterno','materno','numeroContacto','email', 'contraseña','fechaNaci']
 
 class ClienteForm(forms.ModelForm):
     rut = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'ej:19505446-0'}))

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from app1 import views as vista
 from carniRest import views
-#importamos las vistas desde la aplicacion
+
 urlpatterns = [
     path('',vista.inicio,name='index'),
     path('carnes/',vista.carnes,name='carnes'),
@@ -21,7 +21,6 @@ urlpatterns = [
     path("precompra/", vista.Precompra, name="precompra"),  
     path("registrarse/", vista.registrar_usuario, name="registro"),
     path("vista_producto/<int:idProducto>",vista.vista_producto,name="vista_producto"),
-    # path('vista_producto/carniApp1/lista_compras.html',vista.inicio,name='index'),
     path("resultados/", vista.resultado_busqueda, name="resultados"),
     path("recuperarClave/", vista.recuperar_clave, name="recuperarClave"),
     path("codigoRecuperacion/", vista.codigo_recuperacion, name="codigoRecuperacion"),

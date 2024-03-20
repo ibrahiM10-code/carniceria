@@ -6,8 +6,8 @@
         <!-- <h1>{{ user.username }} Orders</h1> -->
         <h1>Mis Compras</h1>
         {% if users_orders %}
-        <div>
-            <ul class="mt-5">
+        <div class="">
+            <ul class="mt-4">
                 {% for order in users_orders %}
                 <li class="mb-5">
                     <strong>Número de la compra:</strong> {{ order.id }}<br>

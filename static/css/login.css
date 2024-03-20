@@ -1,12 +1,11 @@
-form{
-    grid-column: 2/4;
-    color: white;
-}
+
 
 .login-form {
     background-color: rgb(89, 33, 33);
     padding: 50px;
     border-radius: 10px;
+    grid-column: 2/4;
+    color: white;
 }
 
 #main {
